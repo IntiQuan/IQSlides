@@ -32,14 +32,15 @@ IQRoutputPPTX <- function(...,
 
   args__ <- list(...)
 
+  # Where the rds output goes
+  if (is.null(outputFolder)) outputFolder <- .OUTPUTFOLDER_SLIDES
+
+
   # Basic checking of input arguments
   stopifnot(is.character(filename) & length(filename) == 1)
   stopifnot(is.null(title) | (is.character(title) & length(title) == 1))
   stopifnot(is.null(section) | (is.character(section) & length(section) == 1))
   stopifnot(is.character(outputFolder) & length(outputFolder) == 1)
-
-  # Where the rds output goes
-  if (is.null(outputFolder)) outputFolder <- .OUTPUTFOLDER_SLIDES
 
   # Auto-determine Slide Layout
   if (is.null(layout)) {
