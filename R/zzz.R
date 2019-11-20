@@ -1,0 +1,1 @@
+globalVariables(c(".OUTPUTFOLDER_SLIDES", ".TEMPLATEFILE_SLIDES"))
