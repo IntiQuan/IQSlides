@@ -3,4 +3,5 @@
 export("caption<-")
 export(IQRoutputPPTX)
 export(IQSlidedeck)
+export(bullet_list)
 export(caption)

@@ -24,7 +24,7 @@
 #' @export
 #' @author Daniel Kaschek, IntiQuan
 #' @family Slidedeck functions
-#' @example inst/examples/IQslidedeck.R
+#' @example inst/examples/IQSlidedeck.R
 IQRoutputPPTX <- function(...,
                           section = NULL, title = NULL, layout = NULL,
                           filename, outputFolder = NULL,
@@ -77,7 +77,7 @@ IQRoutputPPTX <- function(...,
     length(intersect(class(myarg__), c("data.frame", "character", "numeric",
                                        "factor", "logical", "block_list", "unordered_list",
                                        "gg", "external_img", "xml_document",
-                                       "flextable"))) > 0
+                                       "flextable", "bullet_list"))) > 0
   })
   if (!all(checks__)) {
     stop("The type of input argument ", paste(which(!checks__), collapse = ", "), " is not supported. Please convert first.")
@@ -194,7 +194,7 @@ IQRoutputPPTX <- function(...,
 #' @export
 #' @author Daniel Kaschek, IntiQuan
 #' @family Slidedeck functions
-#' @example inst/examples/IQslidedeck.R
+#' @example inst/examples/IQSlidedeck.R
 IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date = NULL,
                         filename = "slides.pptx", section = NULL, rdspath = NULL, template = NULL) {
 

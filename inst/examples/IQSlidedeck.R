@@ -1,5 +1,6 @@
 \dontrun{
 
+
 library(IQRtools)
 library(ggplot2)
 library(flextable)
@@ -39,6 +40,28 @@ IQRoutputPPTX(
   title = "Overview of cars distance vs time to stop shown as table",
   filename = "carsTable"
 )
+
+# ------------------------------------------------------
+# Slide 3: Create a table and a formatted bullet point list
+# ------------------------------------------------------
+
+table1 <- flextable(cars[1:16,])
+
+IQRoutputPPTX(
+  bullet_list(
+    "* Bullet point with **bold** and *italic*" ,
+    "* Another bullet point",
+    "  * Indented by two spaces",
+    "  * Another one",
+    "* And back to ***really* outer** level",
+    "* Some sort of formula `E_rel_ = m\\*c^2^`"
+  ),
+  table1,
+  section = "Slides with tables",
+  title = "Overview of cars distance vs time to stop shown as table",
+  filename = "carsTable2"
+)
+
 
 
 # ------------------------------------------------------
