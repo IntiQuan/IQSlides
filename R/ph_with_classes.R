@@ -70,7 +70,9 @@ bullet_list <- function(...) {
 
 ph_with.bullet_list <- function(x, value, ...) {
 
-  mytype <- "body"
+
+  location <- as.character(substitute(...))[2]
+
   bullet_list <- value
   elements <- getOption("IQSlide.markdown")
 
@@ -93,10 +95,10 @@ ph_with.bullet_list <- function(x, value, ...) {
       }
       # At each item start reset format to text_normal and start a new par with the correct level
       if (i != 1 & j == 1) {
-        x <- officer::ph_add_par(x, level = level, type = mytype)
+        x <- officer::ph_add_par(x, level = level, ph_label = location)
         mystyle <- text_normal
       }
-      if (i != 1 | (i == 1 & j != 1)) {
+      #if (i != 1 | (i == 1 & j != 1)) {
         # Change style or put contents on slide
         if (content[j] %in% paste0("<@", names(elements), ">")) {
           mystyle <- switch(content[j],
@@ -106,10 +108,10 @@ ph_with.bullet_list <- function(x, value, ...) {
                             "<@subscript>" = stats::update(mystyle, vertical.align = ifelse(mystyle$vertical.align == "baseline", "subscript", "baseline")),
                             "<@superscript>" = stats::update(mystyle, vertical.align = ifelse(mystyle$vertical.align == "baseline", "superscript", "baseline")))
         } else if (content[j] != "") {
-          x <- officer::ph_add_text(x, str = content[j], style = mystyle, type = mytype)
+          x <- officer::ph_add_text(x, str = content[j], style = mystyle, ph_label = location)
         }
 
-      }
+      #}
 
     }
   }

@@ -306,14 +306,15 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
     # When introducing new layouts, add new section here
     # - put browser() command
     # - when in debugger mode type layout_properties(baseppt__, "$NewLayoutName", "Office Theme")
+    # - only use ph_location_label!, other wise bullet_list will not work properly
     if (contents__[["layout"]] == "Title and Content") {
       baseppt__ <- addContent(value = elements__[[1]],
-                              location = officer::ph_location_type(type = "body"))
+                              location = officer::ph_location_label("Content Placeholder 2"))
     } else if (contents__[["layout"]] == "Two Content") {
       baseppt__ <- addContent(value = elements__[[1]],
-                                    location = officer::ph_location_left())
+                                    location = officer::ph_location_label("Content Placeholder 2"))
       baseppt__ <- addContent(value = elements__[[2]],
-                                    location = officer::ph_location_right())
+                                    location = officer::ph_location_label("Content Placeholder 3"))
     } else if (contents__[["layout"]] == "Title and Content and Caption") {
       baseppt__ <- addContent(value = elements__[[1]],
                                     location = officer::ph_location_label("Content Placeholder 2"))

@@ -10,6 +10,20 @@ setwd(tempdir())
 # For compliance information in the footer of the slides
 IQRinitCompliance("IQSlidedeck.R")
 
+
+# ------------------------------------------------------
+# Slide 0: Simple bullet point list
+# ------------------------------------------------------
+
+IQRoutputPPTX(
+  c("Cars data set from R datasets",
+    "The data vie the speed of cars and distances taken to stop shown as plot"),
+  section = "Plain Slides",
+  title = "Just a test",
+  filename = "firstTest"
+)
+
+
 # ------------------------------------------------------
 # Slide 1: Create a plot and a bullet point list
 # ------------------------------------------------------
@@ -39,7 +53,7 @@ IQRoutputPPTX(
   table1,
   section = "Slides with tables",
   title = "Overview of cars distance vs time to stop shown as table",
-  filename = "carsTable"
+  filename = "carsTable2"
 )
 
 
@@ -56,13 +70,36 @@ IQRoutputPPTX(
     "  * Indented by two spaces",
     "  * Another one",
     "* And back to ***really* outer** level",
-    "* Some sort of formula `E_rel_ = m\\*c^2^`"
+    "* Some sort of formula `E~rel~ = m\\*c^2^`"
   ),
   table1,
   section = "Slides with tables",
   title = "Overview of cars distance vs time to stop shown as table",
-  filename = "carsTable2"
+  filename = "carsTable3"
 )
+
+
+# ------------------------------------------------------
+# Slide 4: Create a table and a formatted bullet point list (switch sides)
+# ------------------------------------------------------
+
+table1 <- flextable(cars[1:16,])
+
+IQRoutputPPTX(
+  table1,
+  bullet_list(
+    "* Bullet point with **bold** and *italic*" ,
+    "* Another bullet point",
+    "  * Indented by two spaces",
+    "  * Another one",
+    "* And back to ***really* outer** level",
+    "* Some sort of formula `E~rel~ = m\\*c^2^`"
+  ),
+  section = "Slides with tables",
+  title = "Overview of cars distance vs time to stop shown as table",
+  filename = "carsTable4"
+)
+
 
 
 
