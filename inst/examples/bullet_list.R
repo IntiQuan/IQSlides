@@ -4,6 +4,6 @@ bl <- bullet_list(
   "  * Indented by two spaces",
   "  * Another one",
   "* And back to ***really* outer** level",
-  "* Some sort of formula `E_rel_ = m\\*c^2^`"
+  "* Some sort of formula `E~rel~ = m\\*c^2^`"
 )
 
