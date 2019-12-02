@@ -21,6 +21,7 @@ Imports:
     crayon,
     dplyr,
     magick,
+    pdftools,
     cowplot,
     ggplot2,
     IQRtools (>= 1.1),

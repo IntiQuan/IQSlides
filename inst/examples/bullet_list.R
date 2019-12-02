@@ -1,4 +1,4 @@
-bl <- bullet_list(
+bl <- IQ_bullet_list(
   "* Bullet point with **bold** and *italic*" ,
   "* Another bullet point",
   "  * Indented by two spaces",

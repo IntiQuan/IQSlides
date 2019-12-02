@@ -11,9 +11,9 @@ setwd(tempdir())
 IQRinitCompliance("IQSlidedeck.R")
 
 
-# ------------------------------------------------------
-# Slide 0: Simple bullet point list
-# ------------------------------------------------------
+# ------------------------------------------------------ #
+# Slide 0: Simple bullet point list ----
+# ------------------------------------------------------ #
 
 IQRoutputPPTX(
   c("Cars data set from R datasets",
@@ -24,9 +24,9 @@ IQRoutputPPTX(
 )
 
 
-# ------------------------------------------------------
-# Slide 1: Create a plot and a bullet point list
-# ------------------------------------------------------
+# ------------------------------------------------------ #
+# Slide 1: Create a plot and a bullet point list ----
+# ------------------------------------------------------ #
 
 p1 <- IQRggplot(cars, aes(x = speed, y = dist)) + geom_point()
 caption(p1) <- "Source: Ezekiel, M. (1930) Methods of Correlation Analysis. Wiley."
@@ -41,11 +41,11 @@ IQRoutputPPTX(
 )
 
 
-# ------------------------------------------------------
-# Slide 2: Create a table and a bullet point list
-# ------------------------------------------------------
+# ------------------------------------------------------ #
+# Slide 2: Create a table and a bullet point list ----
+# ------------------------------------------------------ #
 
-table1 <- flextable(cars[1:16,])
+table1 <- IQ_table(cars[1:16,])
 
 IQRoutputPPTX(
   c("Cars data set from R datasets",
@@ -57,14 +57,14 @@ IQRoutputPPTX(
 )
 
 
-# ------------------------------------------------------
-# Slide 3: Create a table and a formatted bullet point list
-# ------------------------------------------------------
+# ------------------------------------------------------ #
+# Slide 3: Create a table and a formatted bullet point list ----
+# ------------------------------------------------------ #
 
-table1 <- flextable(cars[1:16,])
+table1 <- IQ_table(cars[1:16,])
 
 IQRoutputPPTX(
-  bullet_list(
+  IQ_bullet_list(
     "* Bullet point with **bold** and *italic*" ,
     "* Another bullet point",
     "  * Indented by two spaces",
@@ -79,15 +79,15 @@ IQRoutputPPTX(
 )
 
 
-# ------------------------------------------------------
-# Slide 4: Create a table and a formatted bullet point list (switch sides)
-# ------------------------------------------------------
+# ------------------------------------------------------ #
+# Slide 4: Create a table and a formatted bullet point list (switch sides) ----
+# ------------------------------------------------------ #
 
-table1 <- flextable(cars[1:16,])
+table1 <- IQ_table(cars[1:16,])
 
 IQRoutputPPTX(
   table1,
-  bullet_list(
+  IQ_bullet_list(
     "* Bullet point with **bold** and *italic*" ,
     "* Another bullet point",
     "  * Indented by two spaces",
@@ -101,11 +101,45 @@ IQRoutputPPTX(
 )
 
 
+# -------------------------------------------------------------------------#
+# Slide 5: Plots from file ----
+# -------------------------------------------------------------------------#
+
+myplot <- ggplot2::ggplot(mapping = aes(x = 1:3, y = 1:3)) + geom_line()
+
+pdf("plot01.pdf")
+print(myplot)
+dev.off()
+
+png("plot01.png")
+print(myplot)
+dev.off()
+
+IQRoutputPPTX(
+  plot = IQ_image("plot01.png"),
+  section = "Slides with plots",
+  title = "Plot from png file",
+  filename = "plot_png"
+)
+
+IQRoutputPPTX(
+  plot = IQ_image("plot01.pdf", pages = 1),
+  section = "Slides with plots",
+  title = "Plot from pdf file",
+  filename = "plot_pdf"
+)
+
+IQRoutputPPTX(
+  plot = IQ_image(myplot),
+  section = "Slides with plots",
+  title = "Plot from ggplot object",
+  filename = "plot_gg"
+)
 
 
-# ------------------------------------------------------
-# Finally: Create
-# ------------------------------------------------------
+# ------------------------------------------------------ #
+# Finally: Create ----
+# ------------------------------------------------------ #
 # Copy-paste the filename shown in R console
 # to explorer to open the file
 

@@ -30,12 +30,10 @@ IQRoutputPPTX(
 # Slide 2: Create a table and a bullet point list
 # ------------------------------------------------------
 
-table1 <- flextable(cars[1:16,])
-
 IQRoutputPPTX(
-  c("Cars data set from R datasets",
-    "The data vie the speed of cars and distances taken to stop"),
-  table1,
+  info = c("Cars data set from R datasets",
+           "The data vie the speed of cars and distances taken to stop"),
+  table = IQ_table(cars[1:16,]),
   section = "Slides with tables",
   title = "Overview of cars distance vs time to stop shown as table",
   filename = "carsTable"
@@ -45,10 +43,8 @@ IQRoutputPPTX(
 # Slide 3: Create a table and a formatted bullet point list
 # ------------------------------------------------------
 
-table1 <- flextable(cars[1:16,])
-
 IQRoutputPPTX(
-  bullet_list(
+  IQ_bullet_list(
     "* Bullet point with **bold** and *italic*" ,
     "* Another bullet point",
     "  * Indented by two spaces",
@@ -56,7 +52,9 @@ IQRoutputPPTX(
     "* And back to ***really* outer** level",
     "* Some sort of formula `E_rel_ = m\\*c^2^`"
   ),
-  table1,
+  IQ_table(
+    cars[1:16,]
+  ),
   section = "Slides with tables",
   title = "Overview of cars distance vs time to stop shown as table",
   filename = "carsTable2"

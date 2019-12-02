@@ -1,4 +1,8 @@
 
+# -------------------------------------------------------------------------#
+# Bullet point lists ----
+# -------------------------------------------------------------------------#
+
 #' Create bullet point list
 #'
 #' Allows to create a formatted bullet point list using basic elements of
@@ -12,7 +16,7 @@
 #' @example inst/examples/bullet_list.R
 #'
 #' @export
-bullet_list <- function(...) {
+IQ_bullet_list <- function(...) {
 
 
   x <- unlist(list(...))
@@ -61,14 +65,21 @@ bullet_list <- function(...) {
     list(level = level, content = content)
   })
 
-  class(out) <- c("bullet_list")
+  class(out) <- c("IQ_bullet_list")
 
   return(out)
 
 }
 
+#' @export
+#' @rdname IQ_bullet_list
+bullet_list <- function(...) {
+  warning("The function `bullet_list` is deprecated. Use `IQ_bullet_list` instead.")
+  IQ_bullet_list(...)
+}
 
-ph_with.bullet_list <- function(x, value, ...) {
+
+ph_with.IQ_bullet_list <- function(x, value, ...) {
 
 
   location <- as.character(substitute(...))[2]
@@ -120,3 +131,107 @@ ph_with.bullet_list <- function(x, value, ...) {
 
 
 }
+
+
+
+# -------------------------------------------------------------------------#
+# Tables ----
+# -------------------------------------------------------------------------#
+
+
+#' Table output for IQRoutputPPTX
+#'
+#' Prepares objects which can be interpreted as tables (matrix, data.frame, flextable) for
+#' output via IQRoutputPPTX.
+#'
+#' @param x R object (matrix, IQRtable, data.frame, flextable)
+#' @param ... currently not used
+#'
+#' @return ggplot object (any table will be printed as image)
+#'
+#' @export
+IQ_table <- function(x, ...) {
+  UseMethod("IQ_table", x)
+}
+
+#' @export
+#' @rdname IQ_table
+IQ_table.IQRtable <- function(x, ...) {
+
+  table__ <- as.data.frame(x)
+  IQ_table.data.frame(table__, ...)
+
+}
+
+#' @export
+#' @rdname IQ_table
+IQ_table.matrix <- function(x, ...) {
+
+  table__ <- as.data.frame(x)
+  IQ_table.data.frame(table__, ...)
+
+}
+
+#' @export
+#' @rdname IQ_table
+IQ_table.data.frame <- function(x, ...) {
+
+  table__ <- flextable::flextable(x)
+  table__ <- flextable::autofit(table__)
+
+  IQ_table.flextable(table__, ...)
+
+}
+
+#' @export
+#' @rdname IQ_table
+IQ_table.flextable <- function(x, ...) {
+
+  path__ <- tempfile(fileext = ".png")
+  try(flextable::save_as_image(x, path__, zoom = 2, expand = 5), silent = TRUE)
+  tmax <- 10 # seconds
+  tini <- tnow <- Sys.time()
+  # Wait for max. 5 seconds if image file appears
+  while(as.double(tnow - tini) < tmax) {
+    if (file.exists(path__)) break
+    Sys.sleep(.1)
+    tnow <- Sys.time()
+  }
+
+  as_gg_file(path__)
+
+}
+
+
+# -------------------------------------------------------------------------#
+# Plots ----
+# -------------------------------------------------------------------------#
+
+#' Image output for IQRoutputPPTX
+#'
+#' Prepares objects which can be interpreted as plots (image files, ggplot) for
+#' output via IQRoutputPPTX.
+#'
+#' @param x path to image file or ggplot object
+#' @param ... currently not used
+#'
+#' @return ggplot object (any table will be printed as image)
+#' @export
+IQ_image <- function(x, ...) {
+  UseMethod("IQ_image", x)
+}
+
+#' @export
+#' @param pages integer, the page from the pdf to be extracted
+#' @rdname IQ_image
+IQ_image.character <- function(x, pages = 1, ...) {
+  as_gg_file(x, pages = pages[1])
+}
+
+#' @export
+#' @rdname  IQ_image
+IQ_image.gg <- function(x, ...) {
+  x
+}
+
+

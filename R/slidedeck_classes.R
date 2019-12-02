@@ -76,8 +76,8 @@ IQRoutputPPTX <- function(...,
   checks__ <- sapply(args__, function(myarg__) {
     length(intersect(class(myarg__), c("data.frame", "character", "numeric",
                                        "factor", "logical", "block_list", "unordered_list",
-                                       "gg", "external_img", "xml_document",
-                                       "flextable", "bullet_list"))) > 0
+                                       "gg", "external_img", "xml_document", "flextable",
+                                       "IQ_bullet_list", "IQ_table", "IQ_plot"))) > 0
   })
   if (!all(checks__)) {
     stop("The type of input argument ", paste(which(!checks__), collapse = ", "), " is not supported. Please convert first.")
@@ -279,69 +279,45 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
                                     location = officer::ph_location_type(type = "title"))
     }
 
-    # Add own addContent function to allow using flextables
-    addContent <- function(value, ...) {
-      if (inherits(value, "flextable")) {
-        path__ <- tempfile(fileext = ".png")
-        try(flextable::save_as_image(value, path__, zoom = 2, expand = 5), silent = TRUE)
-        tmax <- 10 # seconds
-        tini <- tnow <- Sys.time()
-        # Wait for max. 5 seconds if image file appears
-        while(as.double(tnow - tini) < tmax) {
-          if (file.exists(path__)) break
-          Sys.sleep(.1)
-          tnow <- Sys.time()
-        }
-        image__ <- try(magick::image_read(path__), silent = TRUE)
-        if (!inherits(image__, "try-error"))
-          value <- cowplot::ggdraw() + cowplot::draw_image(image__)
-        else
-          value <- "<< Table could not be produced >>"
-      }
-
-      officer::ph_with(baseppt__, value = value, ...)
-
-    }
-
     # When introducing new layouts, add new section here
     # - put browser() command
     # - when in debugger mode type layout_properties(baseppt__, "$NewLayoutName", "Office Theme")
     # - only use ph_location_label!, other wise bullet_list will not work properly
     if (contents__[["layout"]] == "Title and Content") {
-      baseppt__ <- addContent(value = elements__[[1]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
                               location = officer::ph_location_label("Content Placeholder 2"))
     } else if (contents__[["layout"]] == "Two Content") {
-      baseppt__ <- addContent(value = elements__[[1]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
                                     location = officer::ph_location_label("Content Placeholder 2"))
-      baseppt__ <- addContent(value = elements__[[2]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[2]],
                                     location = officer::ph_location_label("Content Placeholder 3"))
     } else if (contents__[["layout"]] == "Title and Content and Caption") {
-      baseppt__ <- addContent(value = elements__[[1]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
                                     location = officer::ph_location_label("Content Placeholder 2"))
-      baseppt__ <- addContent(value = attr(elements__[[1]], "caption"),
+      baseppt__ <- officer::ph_with(baseppt__, value = attr(elements__[[1]], "caption"),
                                     location = officer::ph_location_label("Text Placeholder 8"))
     } else if (contents__[["layout"]] == "Two Content and Caption") {
-      baseppt__ <- addContent(value = elements__[[1]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
                                     location = officer::ph_location_label("Content Placeholder 2"))
-      baseppt__ <- addContent(value = attr(elements__[[1]], "caption"),
+      baseppt__ <- officer::ph_with(baseppt__, value = attr(elements__[[1]], "caption"),
                                     location = officer::ph_location_label("Text Placeholder 2"))
-      baseppt__ <- addContent(value = elements__[[2]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[2]],
                                     location = officer::ph_location_label("Content Placeholder 3"))
-      baseppt__ <- addContent(value = attr(elements__[[2]], "caption"),
+      baseppt__ <- officer::ph_with(baseppt__, value = attr(elements__[[2]], "caption"),
                                     location = officer::ph_location_label("Text Placeholder 3"))
     } else if (contents__[["layout"]] == "Two Content and Caption Left") {
-      baseppt__ <- addContent(value = elements__[[1]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
                                     location = officer::ph_location_label("Content Placeholder 2"))
-      baseppt__ <- addContent(value = attr(elements__[[1]], "caption"),
+      baseppt__ <- officer::ph_with(baseppt__, value = attr(elements__[[1]], "caption"),
                                     location = officer::ph_location_label("Text Placeholder 2"))
-      baseppt__ <- addContent(value = elements__[[2]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[2]],
                                     location = officer::ph_location_label("Content Placeholder 3"))
     } else if (contents__[["layout"]] == "Two Content and Caption Right") {
-      baseppt__ <- addContent(value = elements__[[1]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
                                     location = officer::ph_location_label("Content Placeholder 2"))
-      baseppt__ <- addContent(value = elements__[[2]],
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[2]],
                                     location = officer::ph_location_label("Content Placeholder 3"))
-      baseppt__ <- addContent(value = attr(elements__[[2]], "caption"),
+      baseppt__ <- officer::ph_with(baseppt__, value = attr(elements__[[2]], "caption"),
                                     location = officer::ph_location_label("Text Placeholder 2"))
     } else {
       warning("Ignoring unknown layout ", contents__[["layout"]], ".")
