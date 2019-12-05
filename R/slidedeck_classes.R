@@ -30,9 +30,12 @@ IQRoutputPPTX <- function(...,
                           filename, outputFolder = NULL,
                           verbose = TRUE) {
 
-  args__ <- list(...)
 
-  # Where the rds output goes
+  args__ <- list(...)
+  # In no contents provided, return empty character
+  if (length(args__) == 0) args__ <- list("")
+
+  # Where the rds output goes (-> outputFolder)
   if (is.null(outputFolder)) outputFolder <- .OUTPUTFOLDER_SLIDES
 
 
@@ -42,7 +45,8 @@ IQRoutputPPTX <- function(...,
   stopifnot(is.null(section) | (is.character(section) & length(section) == 1))
   stopifnot(is.character(outputFolder) & length(outputFolder) == 1)
 
-  # Auto-determine Slide Layout
+
+  # Auto-determine Slide Layout (-> layout__)
   if (is.null(layout)) {
     nargs__ <- max(1, length(args__))
     if (nargs__ > 2) stop("Cannot automatically determine layout for more than two inputs.",
@@ -69,7 +73,7 @@ IQRoutputPPTX <- function(...,
   }
 
 
-  # Sanitize filename
+  # Sanitize filename (-> filename__)
   filename__ <- paste0(sub("\\.rds$", "", filename, ignore.case = TRUE), ".rds")
 
   # Check classes contents
@@ -89,6 +93,82 @@ IQRoutputPPTX <- function(...,
   if (length(args__) > length__) {
     warning("Too many inputs for selected layout. Leftover inputs will not be used.")
   }
+
+
+
+  # Catch IQRtools cases
+  args__ <- lapply(args__, function(args_i__) {
+
+    if (inherits(args_i__, "IQRoutputFigure")) {
+      # IQRoutputFigures are translated into list
+      args_i__ <- translate_IQRoutputFigure(args_i__)
+    } else if (inherits(args_i__, "IQRoutputTable")) {
+      # IQRoutputTables are
+      args_i__ <- translate_IQRoutputTable(args_i__)
+    }
+
+    return(args_i__)
+
+  })
+
+  # Determine length of list arguments, 0 if no list
+  n_is_list__ <- sapply(args__, function(args_i__) {
+    if (class(args_i__)[1] == "list") n__ <- length(args_i__) else n__ <- 0
+    return(n__)
+  })
+
+  # Recycle lists to have same length
+  args__ <- lapply(1:length(args__), function(i__) {
+    if (n_is_list__[i__] > 0)
+      args_i__ <- rep_len(args__[[i__]], max(n_is_list__))
+    else
+      args_i__ <- args__[[i__]]
+    return(args_i__)
+  })
+
+  if (all(n_is_list__ == 0)) {
+    # Call single slide output
+    argslist__ <- c(args__,
+                    list(section = section,
+                         title = title,
+                         layout = layout__,
+                         filename = filename__,
+                         outputFolder = outputFolder,
+                         verbose = verbose))
+    do.call(IQRoutputPPTX_single, argslist__)
+  } else {
+    # Call single slide output multiple times
+    for (i__ in 1:max(n_is_list__)) {
+      argslist__ <- c(
+        lapply(1:length(args__), function(k__) {
+          if (n_is_list__[k__] > 0)
+            args_k__ <- args__[[k__]][[i__]]
+          else
+            args_k__ <- args__[[k__]]
+          return(args_k__)
+        }),
+        list(section = section,
+             title = paste0(title, " (", i__, ")"),
+             layout = layout__,
+             filename = sub("\\.rds$", paste0("_", i__, ".rds"), filename__),
+             outputFolder = outputFolder,
+             verbose = verbose))
+      do.call(IQRoutputPPTX_single, argslist__)
+    }
+  }
+
+
+  invisible()
+
+
+}
+
+
+IQRoutputPPTX_single <- function(...,
+                          section = NULL, title = NULL, layout = NULL,
+                          filename, outputFolder = NULL,
+                          verbose = TRUE) {
+  args__ <- list(...)
 
 
   # Create output object
@@ -356,7 +436,19 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
 #' @md
 #' @export
 #' @author Daniel Kaschek, IntiQuan
-caption <- function(x) attr(x, "caption")
+caption <- function(x) {
+  # Check for caption in attribute
+  mycaption <- attr(x, "caption")
+  # If not available, check for caption in object itself
+  # (ensures compatibility with IQRoutputTable and IQRoutputFigure)
+  if (is.null(mycaption) & is.list(x)) {
+   footer <- grep("footer", names(x), value = TRUE)
+   if (length(footer) > 0) mycaption <- x[[footer]]
+  }
+
+  return(mycaption)
+
+}
 
 #' @rdname caption
 #' @export

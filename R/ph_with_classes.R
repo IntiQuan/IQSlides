@@ -74,9 +74,12 @@ IQ_bullet_list <- function(...) {
 #' @export
 #' @rdname IQ_bullet_list
 bullet_list <- function(...) {
-  warning("The function `bullet_list` is deprecated. Use `IQ_bullet_list` instead.")
   IQ_bullet_list(...)
 }
+
+
+
+
 
 
 ph_with.IQ_bullet_list <- function(x, value, ...) {
