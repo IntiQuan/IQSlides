@@ -7,6 +7,7 @@ library(flextable)
 mywd <- getwd()
 setwd(tempdir())
 
+
 # For compliance information in the footer of the slides
 IQRinitCompliance("IQSlidedeck.R")
 
@@ -154,5 +155,6 @@ IQSlidedeck(
 
 # Just section slides
 IQSlidedeck(section = "Slides with plots")
+
 
 setwd(mywd)

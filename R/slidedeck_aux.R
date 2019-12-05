@@ -34,10 +34,40 @@ genComplianceFooter <- function(outputfilename) {
   userrow__ <- Sys.info()[['user']]
   timerow__ <- Sys.time()
 
-  content__ <- paste0(COMPLIANCE_MODE_SCRIPT_NAME, " | User: ", userrow__, " | Date: ", timerow__)
-
+  # content__ <- paste0(COMPLIANCE_MODE_SCRIPT_NAME, " | User: ", userrow__, " | Date: ", timerow__)
+  content__ <- paste0(COMPLIANCE_MODE_SCRIPT_NAME, " | Date: ", timerow__)
 
   return(content__)
 
 }
+
+
+# Translate IQR output Figure into list of ggplots with caption
+translate_IQRoutputFigure <- function(x) {
+
+  arglist__ <- c(list(x = x), x[["opt.layout"]])
+  mylist__ <- do.call(IQRtools::createPages_IQRoutputFigure, arglist__)
+  mylist__ <- lapply(mylist__, function(element__) {
+    caption(element__) <- paste0("File: ", x[["filename"]])
+    return(element__)
+  })
+
+  return(mylist__)
+
+}
+
+# Translate IQR output Table into IQ_table object with caption
+translate_IQRoutputTable <- function(x) {
+
+  filename__ <- x[["filename"]]
+  footer__ <- x[["xfooter"]]
+  table__ <- x[["xtable"]]
+
+  out__ <- IQ_table(table__)
+  caption(out__) <- paste0(footer__, "\n", paste0("File: ", filename__))
+
+  return(out__)
+
+}
+
 
