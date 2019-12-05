@@ -79,6 +79,8 @@ bullet_list <- function(...) {
 }
 
 
+ph_with.bullet_list <- function(x, value, ...) ph_with.IQ_bullet_list(x, value, ...)
+
 ph_with.IQ_bullet_list <- function(x, value, ...) {
 
 
