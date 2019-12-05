@@ -45,6 +45,21 @@ IQRoutputPPTX <- function(...,
   stopifnot(is.null(section) | (is.character(section) & length(section) == 1))
   stopifnot(is.character(outputFolder) & length(outputFolder) == 1)
 
+  # Catch IQRtools cases
+  args__ <- lapply(args__, function(args_i__) {
+
+    if (inherits(args_i__, "IQRoutputFigure")) {
+      # IQRoutputFigures are translated into list
+      args_i__ <- translate_IQRoutputFigure(args_i__)
+    } else if (inherits(args_i__, "IQRoutputTable")) {
+      # IQRoutputTables are
+      args_i__ <- translate_IQRoutputTable(args_i__)
+    }
+
+    return(args_i__)
+
+  })
+
 
   # Auto-determine Slide Layout (-> layout__)
   if (is.null(layout)) {
@@ -72,7 +87,6 @@ IQRoutputPPTX <- function(...,
     layout__ <- layout
   }
 
-
   # Sanitize filename (-> filename__)
   filename__ <- paste0(sub("\\.rds$", "", filename, ignore.case = TRUE), ".rds")
 
@@ -82,7 +96,7 @@ IQRoutputPPTX <- function(...,
                                        "factor", "logical", "block_list", "unordered_list",
                                        "gg", "external_img", "xml_document", "flextable",
                                        "IQ_bullet_list", "IQ_table", "IQ_plot",
-                                       "IQRoutputFigure", "IQRoutputTable"))) > 0
+                                       "IQRoutputFigure", "IQRoutputTable", "list"))) > 0
   })
   if (!all(checks__)) {
     stop("The type of input argument ", paste(which(!checks__), collapse = ", "), " is not supported. Please convert first.")
@@ -97,20 +111,7 @@ IQRoutputPPTX <- function(...,
 
 
 
-  # Catch IQRtools cases
-  args__ <- lapply(args__, function(args_i__) {
 
-    if (inherits(args_i__, "IQRoutputFigure")) {
-      # IQRoutputFigures are translated into list
-      args_i__ <- translate_IQRoutputFigure(args_i__)
-    } else if (inherits(args_i__, "IQRoutputTable")) {
-      # IQRoutputTables are
-      args_i__ <- translate_IQRoutputTable(args_i__)
-    }
-
-    return(args_i__)
-
-  })
 
   # Determine length of list arguments, 0 if no list
   n_is_list__ <- sapply(args__, function(args_i__) {

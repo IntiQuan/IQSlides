@@ -52,6 +52,9 @@ translate_IQRoutputFigure <- function(x) {
     return(element__)
   })
 
+  # Do not return list if only length 1
+  if (length(mylist__) == 1) mylist__ <- mylist__[[1]]
+
   return(mylist__)
 
 }
