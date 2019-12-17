@@ -29,7 +29,11 @@ plots <- lapply(plots, function(x) x + theme(legend.position = "none"))
 
 figures <- IQRoutputFigure(plots, nrow = 2, ncol = 2, opt.layout = list(legend = legend),
                            footer = "Normally distributed random numbers were used.", filename = "../Output/01_test/normal_distributions.pdf")
+
+figures_onepage <- IQRoutputFigure(plots[1:4], nrow = 2, ncol = 2, filename = "../Output/01_test/subset_normal_distributions.pdf")
+
 table <- IQRoutputTable(mtcars[1:10,], xfooter = "See R datasets::mtcars", xtitle = "Cars data set", filename = "../Output/01_test/cars_table.txt")
+
 
 
 # -------------------------------------------------------------------------#
@@ -65,6 +69,17 @@ IQRoutputPPTX(
 )
 
 
+
+# -------------------------------------------------------------------------#
+# Slide 3 - IQRoutputFigure (One Page) ----
+# -------------------------------------------------------------------------#
+
+IQRoutputPPTX(
+  figures_onepage,
+  section = "Test IQR Objects",
+  title = "Plotting white noise",
+  filename = "white_noise_onepage"
+)
 # ------------------------------------------------------ #
 # Finally: Create ----
 # ------------------------------------------------------ #

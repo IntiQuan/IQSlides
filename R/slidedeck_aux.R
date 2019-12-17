@@ -46,16 +46,20 @@ genComplianceFooter <- function(outputfilename) {
 translate_IQRoutputFigure <- function(x) {
 
   arglist__ <- c(list(x = x), x[["opt.layout"]])
-  mylist__ <- do.call(IQRtools::createPages_IQRoutputFigure, arglist__)
-  mylist__ <- lapply(mylist__, function(element__) {
-    caption(element__) <- paste0("File: ", x[["filename"]])
-    return(element__)
-  })
+  myout__ <- do.call(IQRtools::createPages_IQRoutputFigure, arglist__)
 
-  # Do not return list if only length 1
-  if (length(mylist__) == 1) mylist__ <- mylist__[[1]]
-
-  return(mylist__)
+  if (inherits(myout__, "gg")) {
+    # Single output is not returned as list
+    caption(myout__) <- paste0("File: ", x[["filename"]])
+    return(myout__)
+  } else {
+    # Multiple output is returned as list
+    mylist__ <- lapply(myout__, function(element__) {
+      caption(element__) <- paste0("File: ", x[["filename"]])
+      return(element__)
+    })
+    return(mylist__)
+  }
 
 }
 
