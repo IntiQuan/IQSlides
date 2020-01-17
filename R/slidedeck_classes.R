@@ -5,7 +5,7 @@
 #' The function pushes a plot or table with additional information like
 #' title and section into an rds file within a slide folder.
 #' From that folder, a slide deck can be generated using the
-#' [IQSlidedeck]() function.
+#' \link{IQSlidedeck}() function.
 #'
 #' @param ... The contents to be presented on a slide. Currently supported are one or two objects
 #' of type plot or table.

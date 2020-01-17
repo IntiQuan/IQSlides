@@ -32,7 +32,7 @@ see \link[IQRtools:setup_IQRtools]{IQRtools::setup_IQRtools}'().}
 The function pushes a plot or table with additional information like
 title and section into an rds file within a slide folder.
 From that folder, a slide deck can be generated using the
-\url{IQSlidedeck} function.
+\link{IQSlidedeck}() function.
 }
 \examples{
 \dontrun{
