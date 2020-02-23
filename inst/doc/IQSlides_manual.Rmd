@@ -1,0 +1,259 @@
+---
+title: "IQSlides manual"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(IQRtools)
+IQRinitCompliance("IQSlides_manual")
+unlink("Slides", recursive = TRUE)
+```
+
+
+# Introduction
+
+Often, analysis results, e.g., tables with numeric results or visual representation in graphs, are communicated and shared with MS Powerpoint.
+**IQSlides** helps to easily create sectioned Powerpoint presentations (*.pptx-files*) within R. It is intergrated with IQR Tools as it recognizes IQR Tools objects for figures and tables. The following elements can be included in slides.
+
+* Bullet point lists using R markdown syntax
+* Tables based on data frames or *IQRoutputTable* objects from **IQR Tools**
+* Graphs based on plot objects, existing image files, or *IQRoutputFigures* objects from **IQR Tools**
+
+The general procedure is to define single slides using the function `IQRoutputPPTX`.
+After definiton of all slides, the function `IQSlidedeck` generates the final slide deck, i.e., the final *.pptx-file*.
+
+For full functionality, **IQRSlide** as well as **IQRtools** is loaded: 
+
+```{r}
+library(IQRtools)
+library(IQSlides)
+library(ggplot2)
+```
+
+
+# Creating single slides
+
+Slides are defined by the function `IQRoutputPPTX` that can create slides with one or two 
+content items, i.e., bullet list, tables, or graphs (`...` input arguments). We can define the slide title (`title`) and the name of the section (`section`) to which the slide should belong to. 
+
+```{r include=TRUE, eval=FALSE, echo=FALSE}
+IQRoutputPPTX(
+  ...,
+  section = "Section title",
+  title = "Slide title",
+  filename = "slidename",
+  outputFolder = "Slides"
+)
+
+```
+
+The prepared slide content and its title will be stored as .rds-file in a folder correspoding to the section in the outputFolder (e.g., *"Slides/1_Section title/1_slidename.rds"*). 
+Note that counting numbers are added as prefixes to section and slide names.
+They are numbers in the order of creation and determine the order in the final slide deck.
+
+The use of this function to define slides is shown in examples.
+
+## Example 1: Slide with bullet list
+
+Bullet lists are defined with R markdown syntax using the function `IQ_bullet_list` as shown in the example below:
+
+```{r}
+# Define bullet list:
+bl <- IQ_bullet_list(
+  "* Bullet point with **bold** and *italic*" ,
+  "* Another bullet point",
+  "  * Indented by two spaces",
+  "  * Another one",
+  "* And back to ***really* outer** level",
+  "* Some sort of formula `E~rel~ = m\\*c^2^`"
+)
+
+# Slide with bullet list
+IQRoutputPPTX(
+  bl,
+  section = "Introduction",
+  title = "This slide contains bullet list",
+  filename = "one_bullet_list",
+  outputFolder = "Slides"
+)
+
+```
+
+
+## Example 2-a: Slide with table from data frame
+
+To format a data frame as a table, it is rendered by the function `IQ_table`.
+In the background `IQ_table` makes use of the flextable package.
+A caption can be added to the tableby the `caption` function.
+
+```{r}
+# Create table form first 6 rows of mtcars
+tb1 <- IQ_table(mtcars[1:10,])
+caption(tb1) <- "Source: Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411."
+
+# Slide with bullet list
+IQRoutputPPTX(
+  tb1,
+  section = "Tables",
+  title = "Snapshot of mtcars data",
+  filename = "one_table",
+  outputFolder = "Slides"
+)
+```
+
+## Example 2-b: Slide with table from IQRoutputTable
+
+IQRoutputTables can directly be used as inputs for a slide displaying a table.
+The footer from the `IQRoutputTable` is used as table caption in the slide and
+- if defined - the file to which the table was writtin is displayed.
+
+```{r}
+# Create table form first 10 rows of mtcars
+tb2 <- IQRoutputTable(mtcars[1:10,],
+                      xtitle = "mtcars as IQRoutputTable",
+                      xfooter = "Source: Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411.",
+                      report = FALSE,
+                      filename = "Output/mtcars_snapshot.txt")
+
+# Slide with bullet list
+IQRoutputPPTX(
+  tb2,
+  section = "Tables",
+  title = "Snapshot of mtcars data (IQRoutputTable)",
+  filename = "one_IQRoutputTable",
+  outputFolder = "Slides"
+)
+```
+
+## Example 3-a: Slide with a figure from ggplot object
+
+`ggplot` object can directly be integrated in slides.
+As for tables from data frame, a caption can be added using the function `caption()`.
+
+```{r}
+gr1 <- IQRggplot(mtcars, aes(hp, mpg, color = as.factor(cyl))) +
+  geom_point()
+caption(gr1) <- "mpg: miles per gallon; hp: horsepowerr; cyl: number of cylinders"
+
+# Slide with one figure
+IQRoutputPPTX(
+  gr1,
+  section = "Figures",
+  title = "Correlation of fuel consumption with horse power",
+  filename = "one_figure",
+  outputFolder = "Slides"
+)
+
+```
+
+## Example 3-b: Slide with a figure from IQRoutputFigure
+
+IQRoutputFigures can directly included in a slide using `IQRoutputPPTX`.
+The footer from the `IQRoutputFigure` is used as figure caption in the slide and
+- if defined - the file to which the figure was writtin is displayed.
+
+```{r}
+gr2 <- IQRoutputFigure(gr1,
+                       title = "Correlation of fuel consumption with horse power",
+                       footer = "mpg: miles per gallon; hp: horsepower; cyl: number of cylinders",
+                       filename = "Output/MPG_HP_corr.png")
+
+# Slide with one figure
+IQRoutputPPTX(
+  gr2,
+  section = "Figures",
+  title = "Correlation of fuel consumption with horse power (IQRoutputFigure)",
+  filename = "one_IQRoutputFigure",
+  outputFolder = "Slides"
+)
+
+```
+
+## Example 3-c: Slide with an existing figure from a file
+
+Finally, slides can display graphs that already exist as an image file (.png, .pdf, .jpeg, ...).
+In this case it is necessary to call the function `IQ_image` on the path to the image file.
+
+```{r}
+
+# Slide with one figure
+IQRoutputPPTX(
+  IQ_image("Output/MPG_HP_corr.png"),
+  section = "Figures",
+  title = "Correlation of fuel consumption with horse power (from file)",
+  filename = "one_imagefile",
+  outputFolder = "Slides"
+)
+
+```
+
+## Example 4-a: Slide with bullet points and table
+
+Currently, two contents (bullet points, table, or graph) can be displayed side-by-dise on one slide.
+Here, is an example that displays a bullet list and a table.
+
+```{r}
+# Slide with one figure
+IQRoutputPPTX(
+  IQ_bullet_list("* Data from the 1974 Motor Trend US magazine was used to explore power, cruising range, and number of cylinders for cars.",
+                 "* The table on the left displays a snapshot of the explored data."),
+  tb1,
+  section = "Summary",
+  title = "Summary of the data explored",
+  filename = "bullet_table",
+  outputFolder = "Slides"
+)
+
+```
+
+
+## Example 4-b: Slide with bullet points and figure (and updating slide)
+
+Similarily to the preceding example, also a bullet point and a figure can be combined.
+Note that calling the function another time with the same `section` and `title` updates the
+existing slide.
+
+```{r}
+# Slide with one figure with wrong conclusion
+IQRoutputPPTX(
+  IQ_bullet_list("* Cars with large horse power tend to have shorter cruising range per gallon fuel.",
+                 "* More horse power can be gained with less cylinders."),
+  gr2,
+  section = "Figures",
+  title = "Conclusion on fuel consumption, horse power and number of cylinders",
+  filename = "bullet_figure",
+  outputFolder = "Slides"
+)
+
+# Slide with one figure with corected conclusion
+IQRoutputPPTX(
+  IQ_bullet_list("* Cars with large horse power tend to have shorter cruising range per gallon fuel.",
+                 "* More horse power can be gained with more cylinders."),
+  gr2,
+  section = "Figures",
+  title = "Conclusion on fuel consumption, horse power and number of cylinders",
+  filename = "bullet_figure",
+  outputFolder = "Slides"
+)
+
+
+```
+
+
+# Creation of slide decks
+
+Finally, the slide deck is created from all slides that were defined above and that were stored in the folder "Slides".
+
+```{r}
+IQSlidedeck(
+  title = "My first slidedeck with IQSlides",
+  subtitle = "Exploration of mtcars data",
+  affiliation = "Anne Kuemmel, IntiQuan",
+  date = "2020-02-23",
+  filename = "mtcars_exploration.pptx",
+  rdspath = "Slides"
+)
+```
+
+
