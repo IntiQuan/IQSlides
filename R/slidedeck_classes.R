@@ -274,6 +274,11 @@ IQRoutputPPTX_single <- function(...,
 #' in `getOption("IQSlide.outputfolder")` if `NULL`.
 #' @param template character or `NULL` (default), path to the template PPTX file. Uses the
 #' internal template if `NULL`.
+#' @details The appearance of the slides can be changed by setting the corresponding options via
+#' The R `options()` interface:
+#' * Select a template via `options(IQSlide.template = "TemplateName")`. Currently supported are "Default" and "IQ".
+#' * Select the aspect ratio via `options(IQSlide.ratio = "Ratio")`. Currently supported are "16:9" and "4:3".
+#' To change your settings permanently, please include your preferred options in your RProfile file.
 #' @md
 #' @export
 #' @author Daniel Kaschek, IntiQuan
@@ -291,7 +296,10 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
     if (!section %in% sections__) stop("Section not found. Please check section name.")
     rdspath <- file.path(rdspath, dirs__[match(section, sections__)])
   }
-  if (is.null(template)) template <- system.file(package="IQSlides", file.path("templates", getOption("IQSlide.template")))
+  if (is.null(template)) template <- system.file(package="IQSlides",
+                                                 file.path("templates",
+                                                           paste0("Template", getOption("IQSlide.template"), "_",
+                                                                  sub("\\:", "", getOption("IQSlide.ratio")), ".pptx")))
   if (filename == basename(filename)) filename <- file.path(rdspath, filename) else {
     if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
   }

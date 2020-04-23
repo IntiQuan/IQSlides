@@ -35,6 +35,14 @@ Reads all rds files and generates a slide deck from the input
 \details{
 If non of the title-relevant arguments are supplied, a slide deck without
 title page is produced.
+
+The appearance of the slides can be changed by setting the corresponding options via
+The R \code{options()} interface:
+\itemize{
+\item Select a template via \code{options(IQSlide.template = "TemplateName")}. Currently supported are "Default" and "IQ".
+\item Select the aspect ratio via \code{options(IQSlide.ratio = "Ratio")}. Currently supported are "16:9" and "4:3".
+To change your settings permanently, please include your preferred options in your RProfile file.
+}
 }
 \examples{
 \dontrun{

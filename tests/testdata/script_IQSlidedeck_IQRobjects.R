@@ -96,4 +96,16 @@ IQSlidedeck(
 )
 
 
+options(IQSlide.ratio = "4:3")
+IQSlidedeck(
+  title = "Test Slide Deck",
+  subtitle = "IQR Objects",
+  affiliation = "Daniel Kaschek, IntiQuan",
+  date = Sys.Date(),
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQobjects_43.pptx")
+)
+
+
+
+
 setwd(mywd)
