@@ -149,7 +149,8 @@ IQSlidedeck(
   title = "My first slidedeck with IQSlides",
   subtitle = "Cars and the time they take to stop",
   affiliation = "Daniel Kaschek, IntiQuan",
-  date = "2019-11-20"
+  date = "2019-11-20",
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck.pptx")
 )
 
 

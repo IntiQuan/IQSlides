@@ -23,8 +23,7 @@ arguments passed via \code{...}.}
 \item{filename}{character, filename of the rds file.}
 
 \item{outputFolder}{character or NULL (default). The slide folder where the rds files are saved.
-By default, slides are saved in the folder \code{.OUTPUTFOLDER_SLIDES} as defined in IQR setup file,
-see \link[IQRtools:setup_IQRtools]{IQRtools::setup_IQRtools}'().}
+By default, slides are saved in the folder \code{getOption("IQSlide.outputfolder")}.}
 
 \item{verbose}{logical, if \code{TRUE} (default) show verbose information.}
 }

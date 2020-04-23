@@ -17,8 +17,7 @@
 #' arguments passed via `...`.
 #' @param filename character, filename of the rds file.
 #' @param outputFolder character or NULL (default). The slide folder where the rds files are saved.
-#' By default, slides are saved in the folder `.OUTPUTFOLDER_SLIDES` as defined in IQR setup file,
-#' see [IQRtools::setup_IQRtools]'().
+#' By default, slides are saved in the folder `getOption("IQSlide.outputfolder")`.
 #' @param verbose logical, if `TRUE` (default) show verbose information.
 #' @md
 #' @export
@@ -36,7 +35,7 @@ IQRoutputPPTX <- function(...,
   if (length(args__) == 0) args__ <- list("")
 
   # Where the rds output goes (-> outputFolder)
-  if (is.null(outputFolder)) outputFolder <- .OUTPUTFOLDER_SLIDES
+  if (is.null(outputFolder)) outputFolder <- getOption("IQSlide.outputfolder") # .OUTPUTFOLDER_SLIDES
 
 
   # Basic checking of input arguments
@@ -272,7 +271,7 @@ IQRoutputPPTX_single <- function(...,
 #' exact filename location.
 #' @param section character or `NULL` (default), allows to create slides for a specific section only.
 #' @param rdspath character or `NULL` (default), path to the slide files. Searches for slides
-#' in `.OUTPUTFOLDER_SLIDES` if `NULL`, see [IQRtools::setup_IQRtools]().
+#' in `getOption("IQSlide.outputfolder")` if `NULL`.
 #' @param template character or `NULL` (default), path to the template PPTX file. Uses the
 #' internal template if `NULL`.
 #' @md
@@ -285,14 +284,14 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
 
 
 
-  if (is.null(rdspath)) rdspath <- .OUTPUTFOLDER_SLIDES
+  if (is.null(rdspath)) rdspath <- getOption("IQSlide.outputfolder")  #.OUTPUTFOLDER_SLIDES
   if (!is.null(section)) {
     dirs__ <- list.dirs(rdspath, full.names = FALSE, recursive = FALSE)
     sections__ <- sapply(dirs__, function(x__) paste(strsplit(x__, "_")[[1]][-1], collapse = "_"))
     if (!section %in% sections__) stop("Section not found. Please check section name.")
     rdspath <- file.path(rdspath, dirs__[match(section, sections__)])
   }
-  if (is.null(template)) template <- system.file(package="IQRtools", file.path("templates", .TEMPLATEFILE_SLIDES))
+  if (is.null(template)) template <- system.file(package="IQSlides", file.path("templates", getOption("IQSlide.template")))
   if (filename == basename(filename)) filename <- file.path(rdspath, filename) else {
     if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
   }
@@ -363,6 +362,7 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
       baseppt__ <- officer::ph_with(baseppt__, value = contents__[["title"]],
                                     location = officer::ph_location_type(type = "title"))
     }
+
 
     # When introducing new layouts, add new section here
     # - put browser() command
@@ -447,8 +447,12 @@ caption <- function(x) {
   # If not available, check for caption in object itself
   # (ensures compatibility with IQRoutputTable and IQRoutputFigure)
   if (is.null(mycaption) & is.list(x)) {
-   footer <- grep("footer", names(x), value = TRUE)
-   if (length(footer) > 0) mycaption <- x[[footer]]
+    # Check for possible footer
+    footer <- grep("footer", names(x), value = TRUE)
+    if (length(footer) > 0) mycaption <- x[[footer]]
+    # Check for possible caption in first list element
+    x.caption <- attr(x[[1]], "caption")
+    if (!is.null(x.caption)) mycaption <- paste(x.caption, mycaption, sep = "\n")
   }
 
   return(mycaption)

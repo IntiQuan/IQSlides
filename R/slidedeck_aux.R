@@ -12,8 +12,11 @@ splitNumNames <- function(x) {
 
 genComplianceFooter <- function(outputfilename) {
 
+  # Check for existence of IQRtools package
+  is_installed.IQRtools__ <- "IQRtools" %in% rownames(utils::installed.packages())
+
   # Check if compliance mode active
-  if (!IQRtools::is_enabled_complianceMode()) return()
+  if (is_installed.IQRtools__ && !IQRtools::is_enabled_complianceMode()) return()
 
   # Check if filename given
   if (is.null(outputfilename)) return()

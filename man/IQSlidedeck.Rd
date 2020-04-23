@@ -24,7 +24,7 @@ exact filename location.}
 \item{section}{character or \code{NULL} (default), allows to create slides for a specific section only.}
 
 \item{rdspath}{character or \code{NULL} (default), path to the slide files. Searches for slides
-in \code{.OUTPUTFOLDER_SLIDES} if \code{NULL}, see \url{IQRtools::setup_IQRtools}.}
+in \code{getOption("IQSlide.outputfolder")} if \code{NULL}.}
 
 \item{template}{character or \code{NULL} (default), path to the template PPTX file. Uses the
 internal template if \code{NULL}.}

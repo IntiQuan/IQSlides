@@ -16,7 +16,8 @@ Roxygen: list(markdown = TRUE)
 Suggests:
     testthat,
     devtools,
-    roxygen2
+    roxygen2,
+    IQRtools (>= 1.1)
 Imports:
     crayon,
     dplyr,
@@ -24,7 +25,6 @@ Imports:
     pdftools,
     cowplot,
     ggplot2,
-    IQRtools (>= 1.1),
     officer (>= 0.3.5),
     flextable (>= 0.5.5),
     webshot (>= 0.5.1)
