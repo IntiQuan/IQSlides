@@ -1,13 +1,12 @@
 library(IQSlides)
 library(ggplot2)
+library(IQRtools)
 library(flextable)
 
 IQRinitCompliance("script_IQSlidedeck.R")
 
 mywd <- getwd()
-tmp <- "testiqslides"
-dir.create(tmp, recursive = "TRUE")
-setwd(tmp)
+setwd(tempdir())
 
 # ------------------------------------------------------ #
 # Slide 0: Simple bullet point list ----
@@ -155,5 +154,4 @@ IQSlidedeck(
 IQSlidedeck(section = "Slides with plots")
 
 setwd(mywd)
-unlink(paste0(tmp,"/../Output"),recursive = TRUE)
-unlink(tmp,recursive = TRUE,force = TRUE)
+

@@ -7,9 +7,7 @@ library(flextable)
 IQRinitCompliance("IQSlidedeck_IQRobjects.R")
 
 mywd <- getwd()
-tmp <- "testiqslides"
-dir.create(tmp, recursive = "TRUE")
-setwd(tmp)
+setwd(tempdir())
 
 # -------------------------------------------------------------------------#
 # Create some output ----
@@ -111,5 +109,4 @@ IQSlidedeck(
 
 
 setwd(mywd)
-unlink(paste0(tmp,"/../Output"),recursive = TRUE)
-unlink(tmp,recursive = TRUE,force = TRUE)
+
