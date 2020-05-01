@@ -1,16 +1,13 @@
 library(IQSlides)
-library(IQRtools)
 library(ggplot2)
 library(flextable)
 
+IQRinitCompliance("script_IQSlidedeck.R")
 
 mywd <- getwd()
-setwd(tempdir())
-
-
-# For compliance information in the footer of the slides
-IQRinitCompliance("IQSlidedeck.R")
-
+tmp <- "testiqslides"
+dir.create(tmp, recursive = "TRUE")
+setwd(tmp)
 
 # ------------------------------------------------------ #
 # Slide 0: Simple bullet point list ----
@@ -29,7 +26,7 @@ IQRoutputPPTX(
 # Slide 1: Create a plot and a bullet point list ----
 # ------------------------------------------------------ #
 
-p1 <- IQRggplot(cars, aes(x = speed, y = dist)) + geom_point()
+p1 <- ggplot(cars, aes(x = speed, y = dist)) + geom_point()
 caption(p1) <- "Source: Ezekiel, M. (1930) Methods of Correlation Analysis. Wiley."
 
 IQRoutputPPTX(
@@ -157,5 +154,6 @@ IQSlidedeck(
 # Just section slides
 IQSlidedeck(section = "Slides with plots")
 
-
 setwd(mywd)
+unlink(paste0(tmp,"/../Output"),recursive = TRUE)
+unlink(tmp,recursive = TRUE,force = TRUE)
