@@ -24,10 +24,7 @@ plots <- lapply(1:12, function(i) {
 
 })
 
-legend <- cowplot::get_legend(plots[[1]])
-plots <- lapply(plots, function(x) x + theme(legend.position = "none"))
-
-figures <- IQRoutputFigure(plots, nrow = 2, ncol = 2, opt.layout = list(legend = legend),
+figures <- IQRoutputFigure(plots, nrow = 2, ncol = 2, opt.layout = opt.layout(legend.option = "common"),
                            footer = "Normally distributed random numbers were used.", filename = "../Output/01_test/normal_distributions.pdf")
 
 figures_onepage <- IQRoutputFigure(plots[1:4], nrow = 2, ncol = 2, filename = "../Output/01_test/subset_normal_distributions.pdf")
