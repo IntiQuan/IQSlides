@@ -288,7 +288,6 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
                         filename = "slides.pptx", section = NULL, rdspath = NULL, template = NULL) {
 
 
-
   if (is.null(rdspath)) rdspath <- getOption("IQSlide.outputfolder")  #.OUTPUTFOLDER_SLIDES
   if (!is.null(section)) {
     dirs__ <- list.dirs(rdspath, full.names = FALSE, recursive = FALSE)
@@ -303,6 +302,9 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
   if (filename == basename(filename)) filename <- file.path(rdspath, filename) else {
     if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
   }
+  filenameparts <- strsplit(filename, "/")[[1]]
+  tempfilepath <- paste0(paste0(head(filenameparts,-1), collapse = "/"),"/~$",tail(filenameparts,1))
+  if (file.exists(tempfilepath)) stop("Close file before running IQSlidedeck")
 
   rdsfiles__ <- list.files(rdspath, pattern = "^[[:digit:]]+.*\\.rds$", recursive = TRUE)
   rdsfiles__[!grepl("/", rdsfiles__)] <- paste0("./", rdsfiles__[!grepl("/", rdsfiles__)])
@@ -426,11 +428,7 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
 
   }
 
-
-
   print(baseppt__, target = filename)
-
-
 }
 
 

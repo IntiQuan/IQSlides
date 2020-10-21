@@ -93,22 +93,24 @@ ph_with.IQ_bullet_list <- function(x, value, ...) {
   text_normal <- officer::fp_text(font.family = "", font.size = 0)
 
   # Iterate over items
+  z <- list()
+  zlevels <- NULL
   for (i in seq_along(bullet_list)) {
     # Iterate over text/action elements per item
+    y <- list()
+
+    # Level and content
+    level <- bullet_list[[i]]$level
+    content <- bullet_list[[i]]$content
+
     for (j in seq_along(bullet_list[[i]]$content)) {
-
-      # Level and content
-      level <- bullet_list[[i]]$level
-      content <- bullet_list[[i]]$content
-
       # Initialize
       if (i == 1 & j == 1) {
-        x <- officer::ph_with(x, value = "", ...)
         mystyle <- text_normal
+        #x <- officer::ph_with(x, value = "", ...)
       }
       # At each item start reset format to text_normal and start a new par with the correct level
       if (i != 1 & j == 1) {
-        x <- officer::ph_add_par(x, level = level, ph_label = location)
         mystyle <- text_normal
       }
       #if (i != 1 | (i == 1 & j != 1)) {
@@ -121,17 +123,28 @@ ph_with.IQ_bullet_list <- function(x, value, ...) {
                             "<@subscript>" = stats::update(mystyle, vertical.align = ifelse(mystyle$vertical.align == "baseline", "subscript", "baseline")),
                             "<@superscript>" = stats::update(mystyle, vertical.align = ifelse(mystyle$vertical.align == "baseline", "superscript", "baseline")))
         } else if (content[j] != "") {
-          x <- officer::ph_add_text(x, str = content[j], style = mystyle, ph_label = location)
+          toadd <-officer::ftext(text = content[j],
+                                 prop = officer::fp_text(color = mystyle$color,
+                                                         bold = mystyle$bold,
+                                                         italic = mystyle$italic,
+                                                         vertical.align = mystyle$vertical.align,
+                                                         font.family = mystyle$font.family,
+                                                         font.size = mystyle$font.size))
+          y[[length(y)+1]] = toadd
         }
 
       #}
 
     }
+    # combine text segments to point
+    z[[length(z)+1]] <- do.call(officer::fpar, y)
+    zlevels <- c(zlevels, level)
   }
 
+  # combine points to block_list
+  mylist <- do.call(officer::block_list, z)
+  x <- officer::ph_with(x = x, value = mylist, location =  officer::ph_location_label(location), level_list = zlevels)
   return(x)
-
-
 }
 
 

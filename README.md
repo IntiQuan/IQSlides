@@ -9,6 +9,8 @@ install.packages("officer", repos = "https://cloud.r-project.org")
 install.packages("flextable", repos = "https://cloud.r-project.org")
 install.packages("webshot", repos = "https://cloud.r-project.org")
 ```
+IQSlides 0.3.0 and higher requires officer 0.3.14, flextable 0.5.9, webshot 0.5.2 and zip 2.1.1 or higher.
+IQSlides 0.2.2 requires officer 0.3.5, flextable 0.5.5 and webshot 0.5.1.
 
 After installing `webshot`, do not forget to run the phantomJS installer:
 

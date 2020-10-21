@@ -10,7 +10,6 @@ as_gg_file <- function(file, pages = 1) {
     image__ <- try(magick::image_read(file), silent = TRUE)
   }
 
-
   if (!inherits(image__, "try-error"))
     value <- cowplot::ggdraw() + cowplot::draw_image(image__)
   else
