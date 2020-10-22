@@ -4,8 +4,15 @@
 \alias{IQRoutputPPTX}
 \title{Push contents into a PPTX output}
 \usage{
-IQRoutputPPTX(..., section = NULL, title = NULL, layout = NULL,
-  filename, outputFolder = NULL, verbose = TRUE)
+IQRoutputPPTX(
+  ...,
+  section = NULL,
+  title = NULL,
+  layout = NULL,
+  filename,
+  outputFolder = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{...}{The contents to be presented on a slide. Currently supported are one or two objects
@@ -119,7 +126,8 @@ IQSlidedeck(section = "Slides with plots")
 }
 }
 \seealso{
-Other Slidedeck functions: \code{\link{IQSlidedeck}}
+Other Slidedeck functions: 
+\code{\link{IQSlidedeck}()}
 }
 \author{
 Daniel Kaschek, IntiQuan

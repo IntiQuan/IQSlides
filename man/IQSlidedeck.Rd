@@ -4,9 +4,16 @@
 \alias{IQSlidedeck}
 \title{Build a slide deck from a slide folder}
 \usage{
-IQSlidedeck(title = NULL, subtitle = NULL, affiliation = NULL,
-  date = NULL, filename = "slides.pptx", section = NULL,
-  rdspath = NULL, template = NULL)
+IQSlidedeck(
+  title = NULL,
+  subtitle = NULL,
+  affiliation = NULL,
+  date = NULL,
+  filename = "slides.pptx",
+  section = NULL,
+  rdspath = NULL,
+  template = NULL
+)
 }
 \arguments{
 \item{title}{character or NULL (default), title of the slide deck.}
@@ -130,7 +137,8 @@ IQSlidedeck(section = "Slides with plots")
 }
 }
 \seealso{
-Other Slidedeck functions: \code{\link{IQRoutputPPTX}}
+Other Slidedeck functions: 
+\code{\link{IQRoutputPPTX}()}
 }
 \author{
 Daniel Kaschek, IntiQuan

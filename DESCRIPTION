@@ -29,4 +29,4 @@ Imports:
     flextable (>= 0.5.9),
     webshot (>= 0.5.2),
     zip (>= 2.1.1)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
