@@ -1,6 +1,6 @@
 # IQSlides
 
-## Installation
+## Installation 
 
 The package requires `officer` and `flextable` packages from CRAN rather than an older version from MRAN. To get the packages from CRAN, please run
 
