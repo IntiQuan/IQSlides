@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('error') {
       steps {
         git(url: 'https://rdrr.io/github/IntiQuan/IQSlides/', branch: 'master')
       }
