@@ -13,5 +13,12 @@ pipeline {
       }
     }
 
+    stage('message') {
+      steps {
+        sh 'ls -lia .'
+      }
+    }
+
+    
   }
 }
