@@ -9,7 +9,7 @@ pipeline {
 
     stage('build') {
       steps {
-        sh 'Rcmd.exe INSTALL --no-multiarch --with-keep.source .'
+        sh 'R CMD INSTALL --no-multiarch --with-keep.source .'
       }
     }
 
