@@ -1,3 +1,3 @@
 library(IQSlides)
 
-IQRtools::aux_version("IQSlides")
+print(IQRtools::aux_version("IQSlides"))

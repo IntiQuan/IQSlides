@@ -23,7 +23,7 @@ pipeline {
 
     stage('test') {
       steps {
-        Rscript test.R
+        sh 'Rscript test.R'
       }
     }
 
