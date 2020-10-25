@@ -9,7 +9,22 @@ pipeline {
 
     stage('build') {
       steps {
-        sh 'R CMD INSTALL -l /tmp/R .'
+        sh '''mkdir /tmp/R ;
+
+R CMD INSTALL -l /tmp/R .
+
+
+
+
+
+
+
+
+
+
+
+
+'''
       }
     }
 
