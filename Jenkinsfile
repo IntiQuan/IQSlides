@@ -7,5 +7,11 @@ pipeline {
       }
     }
 
+    stage('build') {
+      steps {
+        sh 'R CMD build .'
+      }
+    }
+
   }
 }
