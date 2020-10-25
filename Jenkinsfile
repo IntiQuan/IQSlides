@@ -15,15 +15,15 @@ pipeline {
       }
     }
 
-    stage('message') {
+    stage('test') {
       steps {
-        sh 'ls -lia .'
+        sh 'Rscript Jenkinstest.R'
       }
     }
 
-    stage('test') {
+    stage('clean') {
       steps {
-        sh 'Rscript test.R'
+        sh 'rm -r /tmp/R/IQSlides'
       }
     }
 
