@@ -36,7 +36,8 @@ R CMD INSTALL -l /tmp/R .
 
     stage('test') {
       steps {
-        sh 'Rscript \'library("IQSlides", lib.loc="/tmp/R"); devtools::test()\''
+        sh '''echo -e "library(\\"IQSlides\\", lib.loc=\\"/tmp/R\\")\\ndevtools::test()\\n" > run.R;
+Rscript run.R'''
       }
     }
 
