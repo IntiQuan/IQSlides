@@ -5,6 +5,7 @@ pipeline {
     stage('get') {
       steps {
         git(url: 'https://github.com/IntiQuan/IQSlides', branch: 'master')
+		sh 'git checkout master'
       }
     }
 
@@ -30,8 +31,8 @@ pipeline {
     stage('commitlog') {
       steps {
         sh 'git add .'
-		sh 'git commit -am "jenkins update"'
-		sh 'git push /refs/heads/master'
+		sh 'git commit -m "jenkins update"'
+		sh 'git push'
       }
     }
 
