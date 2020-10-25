@@ -9,7 +9,7 @@ pipeline {
 
     stage('build') {
       steps {
-        sh 'R CMD build .'
+        sh 'Rcmd.exe INSTALL --no-multiarch --with-keep.source .'
       }
     }
 
@@ -19,6 +19,10 @@ pipeline {
       }
     }
 
-    
+    stage('test') {
+      steps {
+        sh 'Rscript "devtools::test()'
+      }
+    }
   }
 }
