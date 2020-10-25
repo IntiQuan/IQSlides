@@ -26,6 +26,15 @@ pipeline {
         sh 'rm -r /tmp/R/IQSlides'
       }
     }
+	
+    stage('commitlog') {
+      steps {
+        sh 'git add .'
+		sh 'git commit -m "jenkins update"'
+		sh 'git push'
+      }
+    }
+
 
   }
 }
