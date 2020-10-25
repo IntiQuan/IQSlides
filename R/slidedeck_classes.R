@@ -29,7 +29,7 @@ IQRoutputPPTX <- function(...,
                           filename, outputFolder = NULL,
                           verbose = TRUE) {
 
-print("TESTTETTET\n\XXXXXXX")
+print("TESTTETTET\n\nXXXXXXX")
   args__ <- list(...)
   # In no contents provided, return empty character
   if (length(args__) == 0) args__ <- list("")
