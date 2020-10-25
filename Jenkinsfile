@@ -1,11 +1,21 @@
 pipeline {
-  agent any
-  stages {
-    stage('error') {
-      steps {
-        git(url: 'https://github.com/IntiQuan/IQSlides', branch: 'master')
+  agent any {
+    stages {
+      stage('Build') {
+        steps {
+          make build
+        }
+      }
+      stage('Check') {
+        steps {
+          make check
+        }
+      }
+      stage('Clean') {
+        steps {
+          make clean
+        }
       }
     }
-
   }
 }
