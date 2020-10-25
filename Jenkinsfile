@@ -20,11 +20,5 @@ pipeline {
       }
     }
 
-    stage('clean') {
-      steps {
-        sh 'rm -r /tmp/R/IQSlides'
-      }
-    }
-
   }
 }
