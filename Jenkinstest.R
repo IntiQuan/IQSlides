@@ -1,1 +1,5 @@
+library(IQRtools)
+aux_mkdir(jenkins_logs)
+sink(paste0("log ",Sys.time()))
 devtools::test()
+sink()
