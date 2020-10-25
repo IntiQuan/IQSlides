@@ -1,5 +1,1 @@
-library(IQRtools)
-aux_mkdir("jenkins_logs")
-sink(paste0("jenkins_logs/log ",Sys.time(),".txt"))
 devtools::test()
-sink()
