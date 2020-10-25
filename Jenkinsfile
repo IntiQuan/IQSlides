@@ -32,7 +32,7 @@ pipeline {
       steps {
         sh 'git add .'
 		sh 'git commit -m "jenkins update"'
-		sh 'git push'
+		sh 'git push --set-upstream origin master'
       }
     }
 
