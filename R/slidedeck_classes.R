@@ -380,6 +380,9 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
     if (contents__[["layout"]] == "Title and Content") {
       baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
                               location = officer::ph_location_label("Content Placeholder 2"))
+    } else if (contents__[["layout"]] == "Title and Content Wide") {
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
+                                    location = officer::ph_location_label("Content Placeholder 2"))
     } else if (contents__[["layout"]] == "Two Content") {
       baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
                                     location = officer::ph_location_label("Content Placeholder 2"))
@@ -390,7 +393,12 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
                                     location = officer::ph_location_label("Content Placeholder 2"))
       baseppt__ <- officer::ph_with(baseppt__, value = attr(elements__[[1]], "caption"),
                                     location = officer::ph_location_label("Text Placeholder 8"))
-    } else if (contents__[["layout"]] == "Two Content and Caption") {
+    } else if (contents__[["layout"]] == "Title and Content and Caption Wide") {
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
+                                    location = officer::ph_location_label("Content Placeholder 2"))
+      baseppt__ <- officer::ph_with(baseppt__, value = attr(elements__[[1]], "caption"),
+                                    location = officer::ph_location_label("Text Placeholder 8"))
+    }else if (contents__[["layout"]] == "Two Content and Caption") {
       baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
                                     location = officer::ph_location_label("Content Placeholder 2"))
       baseppt__ <- officer::ph_with(baseppt__, value = attr(elements__[[1]], "caption"),

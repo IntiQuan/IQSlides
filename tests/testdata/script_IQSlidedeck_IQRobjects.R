@@ -77,6 +77,20 @@ IQRoutputPPTX(
   title = "Plotting white noise",
   filename = "white_noise_onepage"
 )
+
+# -------------------------------------------------------------------------#
+# Slide 4 - IQRoutputFigure (One Page with wide title) ----
+# -------------------------------------------------------------------------#
+
+IQRoutputPPTX(
+  figures_onepage,
+  section = "Test IQR Objects",
+  title = "Plotting white noise and testing the wide title layout",
+  layout = "Title and Content and Caption Wide",
+  filename = "white_noise_onepage"
+)
+
+
 # ------------------------------------------------------ #
 # Finally: Create ----
 # ------------------------------------------------------ #
