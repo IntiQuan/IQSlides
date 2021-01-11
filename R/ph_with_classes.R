@@ -87,10 +87,15 @@ ph_with.IQ_bullet_list <- function(x, value, ...) {
   location <- as.character(substitute(...))[2]
 
   bullet_list <- value
+
+  # Default elements and fonts according to IQSlide options
   elements <- getOption("IQSlide.markdown")
+  template <- getOption("IQSlide.template")
+  font_normal <- switch(template, Default = "Calibri", IQ = "Open Sans")
+  font_console <- switch(template, Default = "Consolas", IQ = "Consolas")
 
   # Create styles
-  text_normal <- officer::fp_text(font.family = "", font.size = 0)
+  text_normal <- officer::fp_text(font.family = font_normal, font.size = 0)
 
   # Iterate over items
   z <- list()
@@ -119,7 +124,7 @@ ph_with.IQ_bullet_list <- function(x, value, ...) {
           mystyle <- switch(content[j],
                             "<@bold>" = stats::update(mystyle, bold = !mystyle$bold),
                             "<@italic>" = stats::update(mystyle, italic = !mystyle$italic),
-                            "<@code>" = stats::update(mystyle, font.family = ifelse(mystyle$font.family == "", "Consolas", "")),
+                            "<@code>" = stats::update(mystyle, font.family = ifelse(mystyle$font.family == font_normal, font_console, font_normal)),
                             "<@subscript>" = stats::update(mystyle, vertical.align = ifelse(mystyle$vertical.align == "baseline", "subscript", "baseline")),
                             "<@superscript>" = stats::update(mystyle, vertical.align = ifelse(mystyle$vertical.align == "baseline", "superscript", "baseline")))
         } else if (content[j] != "") {
