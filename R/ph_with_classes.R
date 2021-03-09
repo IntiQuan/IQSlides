@@ -41,7 +41,7 @@ IQ_bullet_list <- function(...) {
     # Add trailing space
     content <- paste0(content, " ")
     # Replace reserved characters
-    reserved <- c("*", "`", "_", "^")
+    reserved <- getOption("IQSlide.markdown")[c("italic", "code", "subscript", "superscript")]
     replacement <- c("|@asterisk|", "|@code|", "|@subscript|", "|@superscript|")
     for (r in seq_along(reserved)) content <- gsub(paste0("\\", reserved[r]), replacement[r], content, fixed = TRUE)
     for (k in seq_along(elements)) {
