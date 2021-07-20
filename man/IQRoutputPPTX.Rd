@@ -9,7 +9,7 @@ IQRoutputPPTX(
   section = NULL,
   title = NULL,
   layout = NULL,
-  filename,
+  filename = NULL,
   outputFolder = NULL,
   verbose = TRUE
 )

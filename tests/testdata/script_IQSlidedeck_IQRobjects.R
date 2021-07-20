@@ -31,7 +31,8 @@ figures_onepage <- IQRoutputFigure(plots[1:4], nrow = 2, ncol = 2, filename = ".
 
 table <- IQRoutputTable(mtcars[1:10,], xfooter = "See R datasets::mtcars", xtitle = "Cars data set", filename = "../Output/01_test/cars_table.txt")
 
-
+figures_longlist <- IQRoutputFigure(plots,
+                                    footer = "Normally distributed random numbers were used.", filename = "../Output/01_test/normal_distributions_longlist.pdf")
 
 # -------------------------------------------------------------------------#
 # Slide 1 - IQRoutputFigure ----
@@ -62,7 +63,7 @@ IQRoutputPPTX(
   table,
   section = "Test IQR Objects",
   title = "Well-known table",
-  filename = "cars_table"
+  filename = "cars_table_manual_filename"
 )
 
 
@@ -90,6 +91,19 @@ IQRoutputPPTX(
   filename = "white_noise_onepage"
 )
 
+# -------------------------------------------------------------------------#
+# Slide 5 - IQRoutputTable with filename and title derived ----
+# -------------------------------------------------------------------------#
+
+IQRoutputPPTX(table, section = "Test IQR Objects")
+
+# -------------------------------------------------------------------------#
+# Slide 6 - IQRoutputFigure with filename and title derived ----
+# -------------------------------------------------------------------------#
+
+IQRoutputPPTX(select_plot(figures_longlist, 1),
+              select_plot(figures_longlist, 2),
+              section = "Test IQR Objects")
 
 # ------------------------------------------------------ #
 # Finally: Create ----
@@ -139,6 +153,18 @@ IQSlidedeck(
   filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQobjects_IQ_4_3.pptx")
 )
 
+# -------------------------------------------------------------------------#
+# Test cleaning ----
+# -------------------------------------------------------------------------#
+
+# Remove the existing slide folder
+clean_IQRoutputSection("Test Slide Deck")
+
+# Remove non-existing slide folder
+clean_IQRoutputSection("Test Slide Deck")
+
+# Remove all folders
+clean_IQRoutputSection()
 
 
 setwd(mywd)

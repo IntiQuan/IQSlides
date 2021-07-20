@@ -26,7 +26,7 @@
 #' @example inst/examples/IQSlidedeck.R
 IQRoutputPPTX <- function(...,
                           section = NULL, title = NULL, layout = NULL,
-                          filename, outputFolder = NULL,
+                          filename = NULL, outputFolder = NULL,
                           verbose = TRUE) {
 
   args__ <- list(...)
@@ -38,10 +38,30 @@ IQRoutputPPTX <- function(...,
 
 
   # Basic checking of input arguments
-  stopifnot(is.character(filename) & length(filename) == 1)
+  stopifnot(is.null(filename) | is.character(filename) & length(filename) == 1)
   stopifnot(is.null(title) | (is.character(title) & length(title) == 1))
   stopifnot(is.null(section) | (is.character(section) & length(section) == 1))
   stopifnot(is.character(outputFolder) & length(outputFolder) == 1)
+
+  # Imputation of filename and title if missing
+  first_object <- args__[[1]]
+  is_known_object <- inherits(first_object, "IQRoutputFigure") | inherits(first_object, "IQRoutputTable")
+  is_table <- inherits(first_object, "IQRoutputTable")
+  is_figure <- inherits(first_object, "IQRoutputFigure")
+  if (is.null(filename)) {
+    if (is_known_object) filename <- IQRtools::aux_fileparts(args__[[1]][["filename"]])[["filename"]]
+    if (!is_known_object | is.null(filename)) stop("Filename was not provided and cannot be derived from input object.")
+  }
+  if (is.null(title)) {
+    if (is_known_object & is_table) {
+      title <- args__[[1]][["xtitle"]]
+      if (is.null(title)) title <- ""
+    }
+    if (is_known_object & is_figure) {
+      title <- args__[[1]][["title"]]
+      if (is.null(title)) title <- ""
+    }
+  }
 
   # Catch IQRtools cases
   args__ <- lapply(args__, function(args_i__) {
@@ -57,6 +77,7 @@ IQRoutputPPTX <- function(...,
     return(args_i__)
 
   })
+
 
 
   # Auto-determine Slide Layout (-> layout__)
@@ -171,8 +192,6 @@ IQRoutputPPTX_single <- function(...,
   args__ <- list(...)
   layout__ <- layout
   filename__ <- filename
-
-
 
   # Create output object
   output__ <- c(list(
@@ -477,5 +496,68 @@ caption <- function(x) {
 "caption<-" <- function(x, value) {
   attr(x, "caption") <- value
   return(x)
+}
+
+#' Subsetting IQRoutputFigures
+#'
+#' @param figure IQRoutputFigure
+#' @param n integer or range indicating the plots to keep in the figure
+#'
+#' @return IQRoutputFigure object
+#' @export
+select_plot <- function(figure, n) {
+
+  figure$content <- figure$content[n]
+  return(figure)
+
+}
+
+#' Clean the Slide Output Folder
+#'
+#' Select a single section to be cleaned or clean all sections from the slide output folder.
+#'
+#' @param section character or NULL (default), the section to be removed. All sections if NULL. See also section argument of [IQRoutputPPTX].
+#' @param outputFolder character or NULL (default). The slide folder where the rds files are saved.
+#' By default, slides are saved in the folder `getOption("IQSlide.outputfolder")`.
+#' @param verbose Logical (FALSE by default). Print information during cleaning if TRUE.
+#' @export
+clean_IQRoutputSection <- function(section = NULL, outputFolder = NULL, verbose = FALSE) {
+
+  # Where the rds output goes (-> outputFolder)
+  if (is.null(outputFolder)) outputFolder <- getOption("IQSlide.outputfolder") # .OUTPUTFOLDER_SLIDES
+
+
+  if (is.null(section)) {
+    # Is section is NULL clean all
+    unlink(outputFolder, recursive = TRUE)
+    if (verbose) cat("All sections were removed from the slide output folder.\n")
+  } else {
+    # Else clean only the selected section
+    dirs__ <- list.dirs(outputFolder, full.names = FALSE)
+    dirs__ <- dirs__[dirs__ != ""]
+    if (length(dirs__) > 0) {
+      # section can only be removed when there are folders
+
+      # split number and text part of the section folder name
+      splitdirs__ <- splitNumNames(dirs__)
+      prefix__ <- splitdirs__[["prefix"]]
+      dirnames__ <- splitdirs__[["name"]]
+      # Check if section is among the dir names
+      is_mysection <- (dirnames__ == section)
+      if (any(is_mysection)) {
+        # Remove the section if it was found
+        unlink(file.path(outputFolder, dirs__[is_mysection]), recursive = TRUE)
+        if (verbose) cat("The section was successfully removed from the slide output folder.\n")
+      } else {
+        if (verbose) cat("There was no section with this name in the slide output folder.\n")
+      }
+    } else {
+      if (verbose) cat("The slide output folder did not contain any directories (sections).\n")
+    }
+
+
+  }
+
+
 }
 
