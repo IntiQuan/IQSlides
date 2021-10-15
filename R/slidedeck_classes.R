@@ -59,7 +59,8 @@ IQRoutputPPTX <- function(...,
     }
     if (is_known_object & is_figure) {
       title <- args__[[1]][["title"]]
-      if (is.null(title)) title <- ""
+      # Take the title of the figure as slide title and remove from figure
+      if (is.null(title)) title <- "" else args__[[1]]["title"] <- NULL
     }
   }
 
