@@ -1,8 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 folder=$(date +%Y-%m-%d)
-mkdir releases/$folder
-mkdir releases/$folder/IQSlides
+mkdir -p releases/$folder/IQSlides
 
 # Copy IQSlides package to release folder
 cp -r R releases/$folder/IQSlides
