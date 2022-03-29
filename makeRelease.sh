@@ -31,3 +31,4 @@ cd releases/$folder
 zip -r IQSlides.zip IQSlides
 rm -r IQSlides
 cd ../..
+

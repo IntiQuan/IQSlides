@@ -303,6 +303,10 @@ IQRoutputPPTX_single <- function(...,
 #' @author Daniel Kaschek, IntiQuan
 #' @family Slidedeck functions
 #' @example inst/examples/IQSlidedeck.R
+#' @importFrom ggplot2 ggplot
+#' @importFrom pdftools pdf_convert
+#' @importFrom webshot webshot
+#' @importFrom zip unzip
 IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date = NULL,
                         filename = "slides.pptx", section = NULL, rdspath = NULL, template = NULL) {
 
@@ -322,7 +326,7 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
     if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
   }
   filenameparts <- strsplit(filename, "/")[[1]]
-  tempfilepath <- paste0(paste0(head(filenameparts,-1), collapse = "/"),"/~$",tail(filenameparts,1))
+  tempfilepath <- paste0(paste0(utils::head(filenameparts,-1), collapse = "/"),"/~$", utils::tail(filenameparts,1))
   if (file.exists(tempfilepath)) stop("Close file before running IQSlidedeck")
 
   rdsfiles__ <- list.files(rdspath, pattern = "^[[:digit:]]+.*\\.rds$", recursive = TRUE)
