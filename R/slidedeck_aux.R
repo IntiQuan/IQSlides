@@ -2,7 +2,7 @@
 # Split vector "1_bla", "2_bla", "3_usw" into
 # number part (prefix) and character part (name)
 splitNumNames <- function(x) {
-  prefix__ <- utils::type.convert(sapply(x, function(f__) strsplit(f__, "_")[[1]][1]))
+  prefix__ <- utils::type.convert(sapply(x, function(f__) strsplit(f__, "_")[[1]][1]),as.is=TRUE)
   filenames__ <- sapply(x, function(f__) paste(strsplit(f__, "_")[[1]][-1], collapse = "_"))
   if (is.numeric(prefix__)) nmax__ <- max(prefix__) else nmax__ <- 0
   OK_prefix__ <- is.numeric(prefix__)
