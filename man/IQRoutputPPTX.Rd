@@ -23,9 +23,16 @@ subfolders of the slide output folder.}
 
 \item{title}{character, optional slide title.}
 
-\item{layout}{character or NULL (default), currently supported are "Title and Content" (one object) and
-"Two Content" (two objects). If \code{NULL}, the layout is chosen automatically according to the number of
-arguments passed via \code{...}.}
+\item{layout}{character or NULL (default).
+If \code{NULL}, the layout is chosen automatically according to the number of
+arguments passed via \code{...}.
+List of possible layouts
+\itemize{
+\item "Title and Content" (one object)
+\item "Two Content" (two objects)
+\item "Two Content Right Bigger" (two objects, left column smaller than right one)
+\item "Title and Content Wide"
+}}
 
 \item{filename}{character, filename of the rds file.}
 

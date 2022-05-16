@@ -12,9 +12,14 @@
 #' @param section character, optional section name. Different section names will generate different
 #' subfolders of the slide output folder.
 #' @param title character, optional slide title.
-#' @param layout character or NULL (default), currently supported are "Title and Content" (one object) and
-#' "Two Content" (two objects). If `NULL`, the layout is chosen automatically according to the number of
+#' @param layout character or NULL (default).
+#' If `NULL`, the layout is chosen automatically according to the number of
 #' arguments passed via `...`.
+#' List of possible layouts
+#' * "Title and Content" (one object)
+#' * "Two Content" (two objects)
+#' * "Two Content Right Bigger" (two objects, left column smaller than right one)
+#' * "Title and Content Wide"
 #' @param filename character, filename of the rds file.
 #' @param outputFolder character or NULL (default). The slide folder where the rds files are saved.
 #' By default, slides are saved in the folder `getOption("IQSlide.outputfolder")`.
@@ -445,6 +450,11 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
                                     location = officer::ph_location_label("Content Placeholder 3"))
       baseppt__ <- officer::ph_with(baseppt__, value = attr(elements__[[2]], "caption"),
                                     location = officer::ph_location_label("Text Placeholder 2"))
+    } else if (contents__[["layout"]] == "Two Content Right Bigger") {
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[1]],
+                                    location = officer::ph_location_label("Content Placeholder 2"))
+      baseppt__ <- officer::ph_with(baseppt__, value = elements__[[2]],
+                                    location = officer::ph_location_label("Content Placeholder 3"))
     } else {
       warning("Ignoring unknown layout ", contents__[["layout"]], ".")
     }
