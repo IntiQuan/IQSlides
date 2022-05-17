@@ -196,38 +196,7 @@ IQSlidedeck(
   subtitle = "Cars and the time they take to stop",
   affiliation = "Daniel Kaschek, IntiQuan",
   date = Sys.Date(),
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck_Default_16_9.pptx")
-)
-
-
-options(IQSlide.ratio = "4:3")
-options(IQSlide.template = "Default")
-IQSlidedeck(
-  title = "Test Slide Deck",
-  subtitle = "Cars and the time they take to stop",
-  affiliation = "Daniel Kaschek, IntiQuan",
-  date = Sys.Date(),
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck_Default_4_3.pptx")
-)
-
-options(IQSlide.ratio = "16:9")
-options(IQSlide.template = "IQ")
-IQSlidedeck(
-  title = "Test Slide Deck",
-  subtitle = "Cars and the time they take to stop",
-  affiliation = "Daniel Kaschek, IntiQuan",
-  date = Sys.Date(),
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQ_16_9.pptx")
-)
-
-options(IQSlide.ratio = "4:3")
-options(IQSlide.template = "IQ")
-IQSlidedeck(
-  title = "Test Slide Deck",
-  subtitle = "Cars and the time they take to stop",
-  affiliation = "Daniel Kaschek, IntiQuan",
-  date = Sys.Date(),
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQ_4_3.pptx")
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck.pptx")
 )
 
 
