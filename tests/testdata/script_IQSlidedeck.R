@@ -133,6 +133,55 @@ IQRoutputPPTX(
   filename = "plot_gg"
 )
 
+# ------------------------------------------------------ #
+# Slide 6: Test different layouts ----
+# ------------------------------------------------------ #
+
+table1 <- IQ_table(cars[1:16,])
+p1 <- ggplot(cars, aes(x = speed, y = dist)) + geom_point()
+
+IQRoutputPPTX(
+  c("Cars data set from R datasets",
+    "The data vie the speed of cars and distances taken to stop"),
+  p1,
+  section = "Layouts",
+  title = "Two Content Right Bigger",
+  layout = "Two Content Right Bigger",
+  filename = "layout-twocontentrightbigger-1"
+)
+
+
+IQRoutputPPTX(
+  p1,
+  p1,
+  section = "Layouts",
+  title = "Two Content Right Bigger",
+  layout = "Two Content Right Bigger",
+  filename = "layout-twocontentrightbigger-2"
+)
+
+
+IQRoutputPPTX(
+  p1,
+  IQ_bullet_list("* Cars data set from R datasets",
+                 "* The data vie the speed of cars and distances taken to stop"),
+  section = "Layouts",
+  title = "Two Content Right Bigger",
+  layout = "Two Content Right Bigger",
+  filename = "layout-twocontentrightbigger-3"
+)
+
+
+IQRoutputPPTX(
+  c("Cars data set from R datasets",
+    "The data vie the speed of cars and distances taken to stop"),
+  p1,
+  section = "Layouts",
+  title = "Two Content Right Bigger",
+  layout = "Two Content Right Bigger",
+  filename = "layout-twocontentrightbigger-4"
+)
+
 
 # ------------------------------------------------------ #
 # Finally: Create ----
@@ -140,14 +189,52 @@ IQRoutputPPTX(
 # Copy-paste the filename shown in R console
 # to explorer to open the file
 
-# All slides
+options(IQSlide.ratio = "16:9")
+options(IQSlide.template = "Default")
 IQSlidedeck(
-  title = "My first slidedeck with IQSlides",
+  title = "Test Slide Deck",
   subtitle = "Cars and the time they take to stop",
   affiliation = "Daniel Kaschek, IntiQuan",
-  date = "2019-11-20",
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck.pptx")
+  date = Sys.Date(),
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck_Default_16_9.pptx")
 )
+
+
+options(IQSlide.ratio = "4:3")
+options(IQSlide.template = "Default")
+IQSlidedeck(
+  title = "Test Slide Deck",
+  subtitle = "Cars and the time they take to stop",
+  affiliation = "Daniel Kaschek, IntiQuan",
+  date = Sys.Date(),
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck_Default_4_3.pptx")
+)
+
+options(IQSlide.ratio = "16:9")
+options(IQSlide.template = "IQ")
+IQSlidedeck(
+  title = "Test Slide Deck",
+  subtitle = "Cars and the time they take to stop",
+  affiliation = "Daniel Kaschek, IntiQuan",
+  date = Sys.Date(),
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQ_16_9.pptx")
+)
+
+options(IQSlide.ratio = "4:3")
+options(IQSlide.template = "IQ")
+IQSlidedeck(
+  title = "Test Slide Deck",
+  subtitle = "Cars and the time they take to stop",
+  affiliation = "Daniel Kaschek, IntiQuan",
+  date = Sys.Date(),
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQ_4_3.pptx")
+)
+
+
+
+
+
+
 
 
 # Just section slides
