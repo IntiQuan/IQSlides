@@ -1,0 +1,26 @@
+Package: IQSlides
+Type: Package
+Title: Produce Powerpoint Output from R and IQRtools Objects (Add-On
+        for IQRtools)
+Version: 0.3.6
+Authors@R: c(
+    person("Daniel", "Kaschek", role = c("cre", "aut"), email = "daniel.kaschek@intiquan.com"),
+		person("IntiQuan GmbH", role = "cph")
+    )
+Maintainer: IntiQuan GmbH <info@intiquan.com>
+Description: IQSlides accompanies the efficient conduct of analyses that require
+    reporting to Powerpoint slides.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Suggests: testthat, devtools, roxygen2, IQRtools (>= 1.1)
+Imports: crayon, dplyr, magick, pdftools, cowplot, ggplot2, officer (>=
+        0.3.14), flextable (>= 0.5.9), webshot (>= 0.5.2), zip (>=
+        2.1.1)
+RoxygenNote: 7.1.2
+NeedsCompilation: no
+Packaged: 2022-05-17 13:54:03 UTC; daniel
+Author: Daniel Kaschek [cre, aut],
+  IntiQuan GmbH [cph]
+Built: R 3.6.3; ; 2022-05-17 13:54:44 UTC; unix

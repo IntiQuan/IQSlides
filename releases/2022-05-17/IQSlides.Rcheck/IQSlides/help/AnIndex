@@ -1,0 +1,16 @@
+bullet_list	IQ_bullet_list
+caption	caption
+caption<-	caption
+clean_IQRoutputSection	clean_IQRoutputSection
+IQRoutputPPTX	IQRoutputPPTX
+IQSlidedeck	IQSlidedeck
+IQ_bullet_list	IQ_bullet_list
+IQ_image	IQ_image
+IQ_image.character	IQ_image
+IQ_image.gg	IQ_image
+IQ_table	IQ_table
+IQ_table.data.frame	IQ_table
+IQ_table.flextable	IQ_table
+IQ_table.IQRtable	IQ_table
+IQ_table.matrix	IQ_table
+select_plot	select_plot

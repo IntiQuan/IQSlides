@@ -1,0 +1,9 @@
+IQRoutputPPTX           Push contents into a PPTX output
+IQSlidedeck             Build a slide deck from a slide folder
+IQ_bullet_list          Create bullet point list
+IQ_image                Image output for IQRoutputPPTX
+IQ_table                Table output for IQRoutputPPTX
+caption                 Set and retrieve caption for an object
+clean_IQRoutputSection
+                        Clean the Slide Output Folder
+select_plot             Subsetting IQRoutputFigures
