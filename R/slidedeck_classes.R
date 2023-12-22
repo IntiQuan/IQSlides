@@ -298,10 +298,16 @@ IQRoutputPPTX_single <- function(...,
 #' in `getOption("IQSlide.outputfolder")` if `NULL`.
 #' @param template character or `NULL` (default), path to the template PPTX file. Uses the
 #' internal template if `NULL`.
+#' @param titlelayout character ("Title Slide" by default), indicates which layout should be used as
+#' the title layout. Some templates have more than one option (e.g. IQNew supports "Title Slide" in blue
+#' and "Title Slide white" in white).
+#' @param QCed logical (FALSE by default). If FALSE, a note "non-QCed" is added to the title slide.
+#' If supported by the template, a particular title layout with a non-QCed mark will be used.
+#' If not supported by the template, the note "non-QCed" will be added to the subtitle.
 #' @details The appearance of the slides can be changed by setting the corresponding options via
 #' The R `options()` interface:
-#' * Select a template via `options(IQSlide.template = "TemplateName")`. Currently supported are "Default" and "IQ".
-#' * Select the aspect ratio via `options(IQSlide.ratio = "Ratio")`. Currently supported are "16:9" and "4:3".
+#' * Select a template via `options(IQSlide.template = "TemplateName")`. Currently supported are "Default", "IQ", and "IQNew".
+#' * Select the aspect ratio via `options(IQSlide.ratio = "Ratio")`. Currently supported are "16:9" and "4:3" (4:3 not for IQNew).
 #' To change your settings permanently, please include your preferred options in your RProfile file.
 #' @md
 #' @export
@@ -313,9 +319,9 @@ IQRoutputPPTX_single <- function(...,
 #' @importFrom webshot webshot
 #' @importFrom zip unzip
 IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date = NULL,
-                        filename = "slides.pptx", section = NULL, rdspath = NULL, template = NULL) {
+                        filename = "slides.pptx", section = NULL, rdspath = NULL, template = NULL, titlelayout = c("Title Slide", "Title Slide white"), QCed = FALSE) {
 
-
+  # Determine where to get slide rds files from
   if (is.null(rdspath)) rdspath <- getOption("IQSlide.outputfolder")  #.OUTPUTFOLDER_SLIDES
   if (!is.null(section)) {
     dirs__ <- list.dirs(rdspath, full.names = FALSE, recursive = FALSE)
@@ -323,10 +329,15 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
     if (!section %in% sections__) stop("Section not found. Please check section name.")
     rdspath <- file.path(rdspath, dirs__[match(section, sections__)])
   }
+
+  # Determine which template file to use
   if (is.null(template)) template <- system.file(package="IQSlides",
                                                  file.path("templates",
                                                            paste0("Template", getOption("IQSlide.template"), "_",
                                                                   sub("\\:", "", getOption("IQSlide.ratio")), ".pptx")))
+
+  if (template == "") stop(paste0("The selected template ", getOption("IQSlide.template"), " (", getOption("IQSlide.ratio"), ") does not exist or does not exist in the selected aspect ratio."))
+
   if (filename == basename(filename)) filename <- file.path(rdspath, filename) else {
     if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
   }
@@ -334,6 +345,7 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
   tempfilepath <- paste0(paste0(utils::head(filenameparts,-1), collapse = "/"),"/~$", utils::tail(filenameparts,1))
   if (file.exists(tempfilepath)) stop("Close file before running IQSlidedeck")
 
+  # Get list of all rds files
   rdsfiles__ <- list.files(rdspath, pattern = "^[[:digit:]]+.*\\.rds$", recursive = TRUE)
   rdsfiles__[!grepl("/", rdsfiles__)] <- paste0("./", rdsfiles__[!grepl("/", rdsfiles__)])
   rdsfiles__ <- sub("^\\.", "0_GENERAL", rdsfiles__)
@@ -359,22 +371,45 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
   mymaster__ <- "Office Theme"
   baseppt__ <- officer::read_pptx(template)
   keywords__ <- c("title", "layout", "footnote")
+  layouts__ <- officer::layout_summary(baseppt__)[["layout"]]
 
-  #layout_summary(baseppt)
 
   # Add title slide
   if (!is.null(title) | !is.null(subtitle) | !is.null(date) | !is.null(affiliation)) {
 
+    # Determine title layout and check if available
+    # For older templates there is no QC vs non QC: QC status is added to subtitle
+    # For newer templates the title slide exists in QCed and non-QCed variants: translates into a certain title layout
+    titlelayout <- titlelayout[1]
+    if (!titlelayout %in% layouts__) stop(paste0("The selected title layout is not available in the selected template ",  getOption("IQSlide.template"), " (", getOption("IQSlide.ratio"), ")"))
+    template_has_nonQCed <- paste(titlelayout, "not QCed") %in% layouts__
+
+
+    # Set default title if not available
     if (is.null(title)) title__ <- "Overview of Results" else title__ <- title
+    # Set default subtitle if not available
     if (is.null(subtitle)) subtitle__ <- "" else subtitle__ <- subtitle
-    if (is.null(date)) date__ <- Sys.Date() else date__ <- date
+    # Add non-QCed mark to the subtitle or change the title layout, depending on the template
+    if (!QCed & !template_has_nonQCed) subtitle__ <- paste(subtitle__, "(non-QCed)")
+    if (!QCed & template_has_nonQCed) titlelayout <- paste(titlelayout, "not QCed")
+    # Set data if not provided
+    if (is.null(date)) date__ <- as.character(Sys.Date()) else date__ <- as.character(date)
+    # Set affiliation if not provided
     if (is.null(affiliation)) affiliation__ <- "IntiQuan" else affiliation__ <- affiliation
 
-    baseppt__ <- officer::add_slide(baseppt__, layout = "Title Slide", master = mymaster__)
+    baseppt__ <- officer::add_slide(baseppt__, layout = titlelayout, master = mymaster__)
     baseppt__ <- officer::ph_with(baseppt__, value = title__,
                                   location = officer::ph_location_type("ctrTitle"))
-    baseppt__ <- officer::ph_with(baseppt__, value = paste0(subtitle__, "\n\n", affiliation__, "\n",  date__),
-                                  location = officer::ph_location_type("subTitle"))
+
+    if (getOption("IQSlide.template") == "IQNew") {
+      baseppt__ <- officer::ph_with(baseppt__, value = subtitle__, location = officer::ph_location_type("subTitle"))
+      baseppt__ <- officer::ph_with(baseppt__, value = date__, location = officer::ph_location_label("Date Placeholder 3"))
+      baseppt__ <- officer::ph_with(baseppt__, value = affiliation__, location = officer::ph_location_label("Author Placeholder 6"))
+    } else {
+      baseppt__ <- officer::ph_with(baseppt__, value = paste0(subtitle__, "\n\n", affiliation__, "\n",  date__),
+                                    location = officer::ph_location_type("subTitle"))
+    }
+
   }
 
 
@@ -464,8 +499,12 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
     footer__ <- slidestructure__[["Contents"]][[i__]][["footnote"]]
     if (is.null(footer__)) footer__ <- "Compliance Mode Disabled"
 
+    # Since new template match footer by label
+    properties__ <- officer::layout_properties(baseppt__, layout = contents__[["layout"]])
+    footer_label <- grep("Footer Placeholder", properties__[["ph_label"]], value = TRUE)[1]
+
     baseppt__ <- officer::ph_with(baseppt__, value = footer__,
-                                  location = officer::ph_location_type(type = "ftr"))
+                                  location = officer::ph_location_label(footer_label))
 
   }
 

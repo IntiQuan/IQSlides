@@ -91,8 +91,8 @@ ph_with.IQ_bullet_list <- function(x, value, ...) {
   # Default elements and fonts according to IQSlide options
   elements <- getOption("IQSlide.markdown")
   template <- getOption("IQSlide.template")
-  font_normal <- switch(template, Default = "Calibri", IQ = "Open Sans")
-  font_console <- switch(template, Default = "Consolas", IQ = "Consolas")
+  font_normal <- switch(template, Default = "Calibri", IQ = "Open Sans", IQNew = "Open Sans")
+  font_console <- switch(template, Default = "Consolas", IQ = "Consolas", IQNew = "Consolas")
 
   # Create styles
   text_normal <- officer::fp_text(font.family = font_normal, font.size = 0)
@@ -148,6 +148,7 @@ ph_with.IQ_bullet_list <- function(x, value, ...) {
 
   # combine points to block_list
   mylist <- do.call(officer::block_list, z)
+
   x <- officer::ph_with(x = x, value = mylist, location =  officer::ph_location_label(location), level_list = zlevels)
   return(x)
 }

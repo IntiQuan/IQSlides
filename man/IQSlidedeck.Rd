@@ -12,7 +12,9 @@ IQSlidedeck(
   filename = "slides.pptx",
   section = NULL,
   rdspath = NULL,
-  template = NULL
+  template = NULL,
+  titlelayout = c("Title Slide", "Title Slide white"),
+  QCed = FALSE
 )
 }
 \arguments{
@@ -35,6 +37,14 @@ in \code{getOption("IQSlide.outputfolder")} if \code{NULL}.}
 
 \item{template}{character or \code{NULL} (default), path to the template PPTX file. Uses the
 internal template if \code{NULL}.}
+
+\item{titlelayout}{character ("Title Slide" by default), indicates which layout should be used as
+the title layout. Some templates have more than one option (e.g. IQNew supports "Title Slide" in blue
+and "Title Slide white" in white).}
+
+\item{QCed}{logical (FALSE by default). If FALSE, a note "non-QCed" is added to the title slide.
+If supported by the template, a particular title layout with a non-QCed mark will be used.
+If not supported by the template, the note "non-QCed" will be added to the subtitle.}
 }
 \description{
 Reads all rds files and generates a slide deck from the input
@@ -46,8 +56,8 @@ title page is produced.
 The appearance of the slides can be changed by setting the corresponding options via
 The R \code{options()} interface:
 \itemize{
-\item Select a template via \code{options(IQSlide.template = "TemplateName")}. Currently supported are "Default" and "IQ".
-\item Select the aspect ratio via \code{options(IQSlide.ratio = "Ratio")}. Currently supported are "16:9" and "4:3".
+\item Select a template via \code{options(IQSlide.template = "TemplateName")}. Currently supported are "Default", "IQ", and "IQNew".
+\item Select the aspect ratio via \code{options(IQSlide.ratio = "Ratio")}. Currently supported are "16:9" and "4:3" (4:3 not for IQNew).
 To change your settings permanently, please include your preferred options in your RProfile file.
 }
 }

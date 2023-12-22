@@ -8,7 +8,7 @@ globalVariables(c(".OUTPUTFOLDER_SLIDES", ".TEMPLATEFILE_SLIDES"))
   # Default options for IQSlides
   op.IQSlides <- list(
     IQSlide.markdown = c(bold = "**", italic = "*", code = "`", subscript = "~", superscript = "^"),
-    IQSlide.template = "Default",
+    IQSlide.template = "IQNew",
     IQSlide.ratio = "16:9",
     IQSlide.outputfolder = "../Output/Slides"
   )
