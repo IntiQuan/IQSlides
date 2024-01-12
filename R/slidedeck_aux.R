@@ -48,17 +48,23 @@ genComplianceFooter <- function(outputfilename) {
 # Translate IQR output Figure into list of ggplots with caption
 translate_IQRoutputFigure <- function(x) {
 
+  filename__ <- x[["filename"]]
+
+  # Extract footer and then remove it from Figure object
+  footer__ <- x[["footer"]]
+  x[["footer"]] <- NULL
+
   arglist__ <- c(list(x = x), x[["opt.layout"]])
   myout__ <- do.call(IQRtools::createPages_IQRoutputFigure, arglist__)
 
   if (inherits(myout__, "gg")) {
     # Single output is not returned as list
-    caption(myout__) <- paste0("File: ", x[["filename"]])
+    caption(myout__) <- paste0(footer__, "\n", "File: ", filename__)
     return(myout__)
   } else {
     # Multiple output is returned as list
     mylist__ <- lapply(myout__, function(element__) {
-      caption(element__) <- paste0("File: ", x[["filename"]])
+      caption(element__) <- paste0(footer__, "\n", "File: ", filename__)
       return(element__)
     })
     return(mylist__)
