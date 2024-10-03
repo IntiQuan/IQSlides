@@ -11,7 +11,7 @@ as_gg_file <- function(file, pages = 1) {
   }
 
   if (!inherits(image__, "try-error"))
-    value <- cowplot::ggdraw() + cowplot::draw_image(image__)
+    value <- suppressWarnings(cowplot::ggdraw() + cowplot::draw_image(image__))
   else
     value <- "<< Table could not be produced >>"
 
