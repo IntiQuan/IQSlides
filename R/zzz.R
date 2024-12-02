@@ -8,10 +8,14 @@ globalVariables(c(".OUTPUTFOLDER_SLIDES", ".TEMPLATEFILE_SLIDES"))
   # Default options for IQSlides
   op.IQSlides <- list(
     IQSlide.markdown = c(bold = "**", italic = "*", code = "`", subscript = "~", superscript = "^"),
-    IQSlide.template = "IQNew",
+    IQSlide.template = "Default",
     IQSlide.ratio = "16:9",
     IQSlide.outputfolder = "../Output/Slides"
   )
+
+  # Check if IQ Templates available. If yes, set as default.
+  mypath <- file.path(system.file(package = "IQSlides"), "templates")
+  if (file.exists(file.path(mypath, "TemplateIQ_169.pptx"))) op.IQSlides[["IQSlide.template"]] <- "IQ"
 
   # Set missing options to default values
   toset <- !(names(op.IQSlides) %in% names(op))

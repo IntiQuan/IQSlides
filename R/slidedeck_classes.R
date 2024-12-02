@@ -306,8 +306,8 @@ IQRoutputPPTX_single <- function(...,
 #' If not supported by the template, the note "non-QCed" will be added to the subtitle.
 #' @details The appearance of the slides can be changed by setting the corresponding options via
 #' The R `options()` interface:
-#' * Select a template via `options(IQSlide.template = "TemplateName")`. Currently supported are "Default", "IQ", and "IQNew".
-#' * Select the aspect ratio via `options(IQSlide.ratio = "Ratio")`. Currently supported are "16:9" and "4:3" (4:3 not for IQNew).
+#' * Select a template via `options(IQSlide.template = "TemplateName")`. Currently supported are "Default" and "IQ" (only available on IntiQuan machines).
+#' * Select the aspect ratio via `options(IQSlide.ratio = "Ratio")`. Currently supported are "16:9" and "4:3" (4:3 not for IQ template).
 #' To change your settings permanently, please include your preferred options in your RProfile file.
 #' @md
 #' @export
