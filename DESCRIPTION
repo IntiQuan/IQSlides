@@ -1,7 +1,7 @@
 Package: IQSlides
 Type: Package
 Title: Produce Powerpoint Output from R and IQRtools Objects (Add-On for IQRtools)
-Version: 0.3.9
+Version: 0.4
 Authors@R: c(
     person("Daniel", "Kaschek", role = c("cre", "aut"), email = "daniel.kaschek@intiquan.com"),
 		person("IntiQuan GmbH", role = "cph")
@@ -17,7 +17,7 @@ Suggests:
     testthat,
     devtools,
     roxygen2,
-    IQRtools (>= 1.1)
+    IQRtools (>= 2025.05)
 Imports:
     crayon,
     dplyr,
@@ -25,8 +25,8 @@ Imports:
     pdftools,
     cowplot,
     ggplot2,
-    officer (>= 0.3.14),
-    flextable (>= 0.5.9),
-    webshot (>= 0.5.2),
-    zip (>= 2.1.1)
+    officer (>= 0.6.8),
+    flextable (>= 0.9.7),
+    webshot (>= 0.5.5),
+    zip (>= 2.3.2)
 RoxygenNote: 7.3.2
