@@ -16,6 +16,8 @@
 #' @example inst/examples/bullet_list.R
 #'
 #' @export
+#' @import officer
+#' @method ph_with IQ_bullet_list
 IQ_bullet_list <- function(...) {
 
 
@@ -72,19 +74,20 @@ IQ_bullet_list <- function(...) {
 }
 
 #' @export
+#' @method ph_with bullet_list
 #' @rdname IQ_bullet_list
 bullet_list <- function(...) {
   IQ_bullet_list(...)
 }
 
-
-ph_with.bullet_list <- function(x, value, ...) ph_with.IQ_bullet_list(x, value, ...)
-
-
-ph_with.IQ_bullet_list <- function(x, value, ...) {
+ph_with.bullet_list <- function(x, value, location, ...) ph_with.IQ_bullet_list(x, value, location, ...)
 
 
-  location <- as.character(substitute(...))[2]
+ph_with.IQ_bullet_list <- function(x, value, location, ...) {
+
+
+  # Does not seem to be needed any more because location became a required argument in officer:ph_with
+  # location <- as.character(substitute(...))[2]
 
   bullet_list <- value
 

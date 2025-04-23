@@ -56,8 +56,8 @@ title page is produced.
 The appearance of the slides can be changed by setting the corresponding options via
 The R \code{options()} interface:
 \itemize{
-\item Select a template via \code{options(IQSlide.template = "TemplateName")}. Currently supported are "Default", "IQ", and "IQNew".
-\item Select the aspect ratio via \code{options(IQSlide.ratio = "Ratio")}. Currently supported are "16:9" and "4:3" (4:3 not for IQNew).
+\item Select a template via \code{options(IQSlide.template = "TemplateName")}. Currently supported are "Default" and "IQ" (only available on IntiQuan machines).
+\item Select the aspect ratio via \code{options(IQSlide.ratio = "Ratio")}. Currently supported are "16:9" and "4:3" (4:3 not for IQ template).
 To change your settings permanently, please include your preferred options in your RProfile file.
 }
 }

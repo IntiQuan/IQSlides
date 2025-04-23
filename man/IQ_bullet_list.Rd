@@ -5,9 +5,9 @@
 \alias{bullet_list}
 \title{Create bullet point list}
 \usage{
-IQ_bullet_list(...)
+\method{ph_with}{IQ_bullet_list}(...)
 
-bullet_list(...)
+\method{ph_with}{bullet_list}(...)
 }
 \arguments{
 \item{...}{Each bullet point is entered as a string. The string should start with "*" and
