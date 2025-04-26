@@ -3,15 +3,33 @@
 \name{IQ_bullet_list}
 \alias{IQ_bullet_list}
 \alias{bullet_list}
+\alias{ph_with.bullet_list}
+\alias{ph_with.IQ_bullet_list}
 \title{Create bullet point list}
 \usage{
-\method{ph_with}{IQ_bullet_list}(...)
+IQ_bullet_list(...)
 
-\method{ph_with}{bullet_list}(...)
+bullet_list(...)
+
+\method{ph_with}{bullet_list}(x, value, location, ...)
+
+\method{ph_with}{IQ_bullet_list}(x, value, location, ...)
 }
 \arguments{
 \item{...}{Each bullet point is entered as a string. The string should start with "*" and
 can be indented by multiples of two spaces to change the item level. See example.}
+
+\item{x}{an rpptx object (see \code{\link[officer:ph_with]{officer::ph_with}})}
+
+\item{value}{object to add as a new shape. Supported objects are vectors, data.frame,
+graphics, block of formatted paragraphs, unordered list of formatted paragraphs,
+pretty tables with package flextable, editable graphics with package rvg, 'Microsoft'
+charts with package mschart (see \code{\link[officer:ph_with]{officer::ph_with}}).}
+
+\item{location}{a placeholder location object or a location short form. It will be used
+to specify the location of the new shape. This location can be defined with a call to one
+of the ⁠ph_location_*⁠ functions (see section "see also"). In ph_with(), several location
+short forms can be used, as listed in section "Short forms" (see \code{\link[officer:ph_with]{officer::ph_with}}).}
 }
 \value{
 Object of type \code{bullet_list}.

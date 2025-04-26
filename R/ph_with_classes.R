@@ -15,9 +15,8 @@
 #'
 #' @example inst/examples/bullet_list.R
 #'
-#' @export
 #' @import officer
-#' @method ph_with IQ_bullet_list
+#' @export
 IQ_bullet_list <- function(...) {
 
 
@@ -74,15 +73,29 @@ IQ_bullet_list <- function(...) {
 }
 
 #' @export
-#' @method ph_with bullet_list
 #' @rdname IQ_bullet_list
 bullet_list <- function(...) {
   IQ_bullet_list(...)
 }
 
+
+#' @rdname IQ_bullet_list
+#' @param x an rpptx object (see [`officer::ph_with`])
+#' @param value object to add as a new shape. Supported objects are vectors, data.frame,
+#' graphics, block of formatted paragraphs, unordered list of formatted paragraphs,
+#' pretty tables with package flextable, editable graphics with package rvg, 'Microsoft'
+#' charts with package mschart (see [`officer::ph_with`]).
+#' @param location a placeholder location object or a location short form. It will be used
+#' to specify the location of the new shape. This location can be defined with a call to one
+#' of the ⁠ph_location_*⁠ functions (see section "see also"). In ph_with(), several location
+#' short forms can be used, as listed in section "Short forms" (see [`officer::ph_with`]).
+#' @method ph_with bullet_list
+#' @export
 ph_with.bullet_list <- function(x, value, location, ...) ph_with.IQ_bullet_list(x, value, location, ...)
 
-
+#' @rdname IQ_bullet_list
+#' @method ph_with IQ_bullet_list
+#' @export
 ph_with.IQ_bullet_list <- function(x, value, location, ...) {
 
 
@@ -94,8 +107,8 @@ ph_with.IQ_bullet_list <- function(x, value, location, ...) {
   # Default elements and fonts according to IQSlide options
   elements <- getOption("IQSlide.markdown")
   template <- getOption("IQSlide.template")
-  font_normal <- switch(template, Default = "Calibri", IQ = "Open Sans", IQNew = "Open Sans")
-  font_console <- switch(template, Default = "Consolas", IQ = "Consolas", IQNew = "Consolas")
+  font_normal <- switch(template, Default = "Calibri", IQ = "Open Sans")
+  font_console <- switch(template, Default = "Consolas", IQ = "Consolas")
 
   # Create styles
   text_normal <- officer::fp_text(font.family = font_normal, font.size = 0)

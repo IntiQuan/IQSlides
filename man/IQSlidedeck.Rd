@@ -39,7 +39,7 @@ in \code{getOption("IQSlide.outputfolder")} if \code{NULL}.}
 internal template if \code{NULL}.}
 
 \item{titlelayout}{character ("Title Slide" by default), indicates which layout should be used as
-the title layout. Some templates have more than one option (e.g. IQNew supports "Title Slide" in blue
+the title layout. Some templates have more than one option (e.g. IQ supports "Title Slide" in blue
 and "Title Slide white" in white).}
 
 \item{QCed}{logical (FALSE by default). If FALSE, a note "non-QCed" is added to the title slide.

@@ -144,33 +144,13 @@ IQSlidedeck(
   filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQobjects_IQ_16_9.pptx")
 )
 
-options(IQSlide.ratio = "4:3")
-options(IQSlide.template = "IQ")
-IQSlidedeck(
-  title = "Test Slide Deck",
-  subtitle = "IQR Objects",
-  affiliation = "Daniel Kaschek, IntiQuan",
-  date = Sys.Date(),
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQobjects_IQ_4_3.pptx")
-)
-
-options(IQSlide.ratio = "16:9")
-options(IQSlide.template = "IQNew")
-IQSlidedeck(
-  title = "Test Slide Deck",
-  subtitle = "IQR Objects",
-  affiliation = "Daniel Kaschek, IntiQuan",
-  date = Sys.Date(),
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQobjects_IQnew_16_9.pptx")
-)
-
 IQSlidedeck(
   title = "Test Slide Deck",
   subtitle = "IQR Objects",
   affiliation = "Daniel Kaschek, IntiQuan",
   date = Sys.Date(),
   titlelayout = "Title Slide white",
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQobjects_IQnew_16_9_white.pptx")
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQobjects_IQ_16_9_white.pptx")
 )
 
 
@@ -181,7 +161,7 @@ IQSlidedeck(
   date = Sys.Date(),
   titlelayout = "Title Slide white",
   QCed = TRUE,
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQobjects_IQnew_16_9_white_QCed.pptx")
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQobjects_IQ_16_9_white_QCed.pptx")
 )
 
 

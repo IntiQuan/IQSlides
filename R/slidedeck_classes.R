@@ -299,7 +299,7 @@ IQRoutputPPTX_single <- function(...,
 #' @param template character or `NULL` (default), path to the template PPTX file. Uses the
 #' internal template if `NULL`.
 #' @param titlelayout character ("Title Slide" by default), indicates which layout should be used as
-#' the title layout. Some templates have more than one option (e.g. IQNew supports "Title Slide" in blue
+#' the title layout. Some templates have more than one option (e.g. IQ supports "Title Slide" in blue
 #' and "Title Slide white" in white).
 #' @param QCed logical (FALSE by default). If FALSE, a note "non-QCed" is added to the title slide.
 #' If supported by the template, a particular title layout with a non-QCed mark will be used.
@@ -331,12 +331,19 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
   }
 
   # Determine which template file to use
-  if (is.null(template)) template <- system.file(package="IQSlides",
-                                                 file.path("templates",
-                                                           paste0("Template", getOption("IQSlide.template"), "_",
-                                                                  sub("\\:", "", getOption("IQSlide.ratio")), ".pptx")))
+  if (is.null(template)) {
+    mytemplate <- getOption("IQSlide.template")
+    mytemppath <- getOption("IQSlide.templatefolder")
+    mytempratio <- getOption("IQSlide.ratio")
+    mypotentialfiles <- file.path(mytemppath, paste0("Template", mytemplate, "_", sub("\\:", "", mytempratio), ".pptx"))
+    mypotentialfiles.exists <- file.exists(mypotentialfiles)
+    if (!any(mypotentialfiles.exists))
+      stop(paste0("The selected template ", mytemplate, " (", mytempratio, ") does not exist or does not exist in the selected aspect ratio."))
 
-  if (template == "") stop(paste0("The selected template ", getOption("IQSlide.template"), " (", getOption("IQSlide.ratio"), ") does not exist or does not exist in the selected aspect ratio."))
+    # Pick the first existing files (in case the template exists in several places)
+    template <- mypotentialfiles[mypotentialfiles.exists][1]
+
+  }
 
   if (filename == basename(filename)) filename <- file.path(rdspath, filename) else {
     if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
@@ -401,7 +408,7 @@ IQSlidedeck <- function(title = NULL, subtitle = NULL, affiliation = NULL, date 
     baseppt__ <- officer::ph_with(baseppt__, value = title__,
                                   location = officer::ph_location_type("ctrTitle"))
 
-    if (getOption("IQSlide.template") == "IQNew") {
+    if (getOption("IQSlide.template") == "IQ") {
       baseppt__ <- officer::ph_with(baseppt__, value = subtitle__, location = officer::ph_location_type("subTitle"))
       baseppt__ <- officer::ph_with(baseppt__, value = date__, location = officer::ph_location_label("Date Placeholder 3"))
       baseppt__ <- officer::ph_with(baseppt__, value = affiliation__, location = officer::ph_location_label("Author Placeholder 6"))

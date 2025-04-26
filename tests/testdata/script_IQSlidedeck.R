@@ -201,13 +201,13 @@ IQSlidedeck(
 
 
 
-options(IQSlide.template = "IQNew")
+options(IQSlide.template = "IQ")
 IQSlidedeck(
   title = "Test Slide Deck",
   subtitle = "Cars and the time they take to stop",
   affiliation = "Daniel Kaschek, IntiQuan",
   date = Sys.Date(),
-  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQnew.pptx")
+  filename = file.path(mywd, "../testresults/script_IQSlidedeck_IQ.pptx")
 )
 
 
